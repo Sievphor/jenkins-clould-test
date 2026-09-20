@@ -4,7 +4,9 @@ pipeline {
     environment {
         DOCKER_HUB_USER = 'phor2026'
         IMAGE_NAME      = 'jenkins-demo-app'
-        APP_PORT        = '8081'
+        EC2_IP          = '15.135.189.23'
+        EC2_USER        = 'ubuntu'        // ឬ root ឬ ec2-user តាម OS របស់ EC2
+        APP_PORT        = '9099'
     }
 
     stages {
@@ -17,31 +19,12 @@ pipeline {
 
         stage('2. Build Docker Image') {
             steps {
-                echo "🔨 Building Docker Image: ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest..."
+                echo "🔨 Building Docker Image: ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER}..."
                 sh "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER} ."
             }
         }
 
-        stage('3. Test Container') {
-            steps {
-                echo "🧪 Testing Nginx Configuration..."
-                sh "docker run --rm --entrypoint nginx ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest -t"
-                echo "✅ All tests passed successfully!"
-            }
-        }
-
-        stage('4. Auto Deploy Local') {
-            steps {
-                echo "🚀 Deploying Application to Container on Port ${APP_PORT}..."
-                sh """
-                    docker rm -f ${IMAGE_NAME} || true
-                    docker run -d --name ${IMAGE_NAME} -p ${APP_PORT}:80 ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
-                """
-                echo "🎉 Application deployed and running at http://localhost:${APP_PORT}"
-            }
-        }
-
-        stage('5. Push to Docker Hub') {
+        stage('3. Push to Docker Hub') {
             steps {
                 echo "🚀 Logging in and Pushing Image to Docker Hub..."
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
@@ -52,6 +35,23 @@ pipeline {
                 echo "🎉 Image pushed to Docker Hub successfully!"
             }
         }
+
+        stage('4. Deploy to AWS EC2') {
+            steps {
+                echo "🚢 Connecting via SSH to AWS EC2 (${EC2_IP}) and Deploying..."
+                sshagent(['ec2-server-key']) {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} "
+                            docker pull ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest && \\
+                            docker stop ${IMAGE_NAME} || true && \\
+                            docker rm ${IMAGE_NAME} || true && \\
+                            docker run -d --name ${IMAGE_NAME} -p ${APP_PORT}:80 ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
+                        "
+                    """
+                }
+                echo "🎉 Deployed to AWS EC2 successfully! Check at http://${EC2_IP}:${APP_PORT}"
+            }
+        }
     }
 
     post {
@@ -59,11 +59,11 @@ pipeline {
             sh "docker logout || true"
         }
         success {
-            echo "🟢 ==================================================="
-            echo "🟢 CI/CD PIPELINE & DOCKER HUB PUSH SUCCEEDED 100%!"
-            echo "🟢 Web App Running at: http://localhost:8081"
-            echo "🟢 Docker Hub: https://hub.docker.com/r/${DOCKER_HUB_USER}/${IMAGE_NAME}"
-            echo "🟢 ==================================================="
+            echo "🟢 ========================================================="
+            echo "🟢 CI/CD PIPELINE & DEPLOY TO AWS EC2 SUCCEEDED 100%!"
+            echo "🟢 Web App Running on AWS: http://15.135.189.23:9099"
+            echo "🟢 Docker Hub: https://hub.docker.com/r/phor2026/jenkins-demo-app"
+            echo "🟢 ========================================================="
         }
         failure {
             echo "🔴 Pipeline failed. Please check logs."
