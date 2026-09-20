@@ -2,10 +2,8 @@ pipeline {
     agent any
 
     environment {
-        // ប្តូរ phor2026 ទៅជាឈ្មោះ Docker Hub របស់អ្នក
-        DOCKER_HUB_USER = 'phor2026'
-        IMAGE_NAME      = 'jenkins-demo-app'
-        IMAGE_TAG       = "${BUILD_NUMBER}"
+        IMAGE_NAME = 'jenkins-demo-app'
+        APP_PORT   = '8081'
     }
 
     stages {
@@ -18,42 +16,40 @@ pipeline {
 
         stage('2. Build Docker Image') {
             steps {
-                echo "🔨 Building Docker Image: ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
-                sh "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest ."
+                echo "🔨 Building Docker Image: ${IMAGE_NAME}:latest..."
+                sh "docker build -t ${IMAGE_NAME}:latest -t ${IMAGE_NAME}:${BUILD_NUMBER} ."
             }
         }
 
         stage('3. Test Container') {
             steps {
-                echo "🧪 Testing Docker Image..."
-                sh "docker run --rm ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} nginx -t"
-                echo "✅ Tests passed!"
+                echo "🧪 Testing Nginx Configuration..."
+                sh "docker run --rm ${IMAGE_NAME}:latest nginx -t"
+                echo "✅ All tests passed successfully!"
             }
         }
 
-        stage('4. Push to Docker Hub') {
+        stage('4. Auto Deploy') {
             steps {
-                // ប្រើ Credential ID: 'docker-hub-credentials' ដែលបង្កើតក្នុង Jenkins
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
-                    sh 'echo "$DH_PASS" | docker login -u "$DH_USER" --password-stdin'
-                    sh "docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
-                    sh "docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest"
-                }
-                echo "🚀 Image pushed to Docker Hub successfully!"
+                echo "🚀 Deploying Application to Container on Port ${APP_PORT}..."
+                sh """
+                    docker rm -f ${IMAGE_NAME} || true
+                    docker run -d --name ${IMAGE_NAME} -p ${APP_PORT}:80 ${IMAGE_NAME}:latest
+                """
+                echo "🎉 Application deployed and running at http://localhost:${APP_PORT}"
             }
         }
     }
 
     post {
-        always {
-            echo "🧹 Cleaning up local images..."
-            sh "docker logout"
-        }
         success {
-            echo "🟢 CI/CD Pipeline Succeeded!"
+            echo "🟢 ====================================="
+            echo "🟢 CI/CD PIPELINE SUCCEEDED 100%!"
+            echo "🟢 Access app at: http://localhost:8081"
+            echo "🟢 ====================================="
         }
         failure {
-            echo "🔴 CI/CD Pipeline Failed!"
+            echo "🔴 Pipeline failed. Please check logs."
         }
     }
 }
