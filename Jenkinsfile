@@ -24,7 +24,7 @@ pipeline {
         stage('3. Test Container') {
             steps {
                 echo "🧪 Testing Nginx Configuration..."
-                sh "docker run --rm ${IMAGE_NAME}:latest nginx -t"
+                sh "docker run --rm --entrypoint nginx ${IMAGE_NAME}:latest -t"
                 echo "✅ All tests passed successfully!"
             }
         }
