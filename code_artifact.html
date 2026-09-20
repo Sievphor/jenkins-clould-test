@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="km" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>សិក្ខាសាលាអភិវឌ្ឍន៍វិជ្ជាជីវៈ - សាលា សន្តសាវីយេ</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome Graphic Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts Khmer -->
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruuy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kantumruuy Pro', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 310px;
+            max-height: 380px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 340px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+
+<!-- Chosen Palette: Warm Neutral Slate & Deep Indigo Premium with FontAwesome Graphic Icons -->
+<!-- Application Structure Plan: Integrated standard webfont graphic icons (FontAwesome 6) throughout the single-page application replacing legacy emojis. Optimized typography, visual hierarchy, tab navigation, responsive Chart.js components, pre-workshop reflection widget, and modal dialogue. Structure tailored to deliver optimal user experience for St. Xavier School educators. -->
+<!-- Visualization & Content Choices: 1. Icon system: Font Awesome Font Icons (Webfont, 0 SVG tags used). 2. Dynamic Charts: Doughnut & Bar Charts powered by Chart.js Canvas rendering. 3. Content Modules: Clean cards, structured timeline items, and interactive self-reflection form. NO SVG graphics used. NO Mermaid JS used. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-40 bg-slate-900/95 text-white backdrop-blur-md border-b border-slate-800 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center text-white shadow-md border border-indigo-400/30">
+                        <i class="fa-solid fa-graduation-cap text-lg sm:text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-base sm:text-lg leading-tight block text-white tracking-wide">សាលា សន្តសាវីយេ</span>
+                        <span class="text-xs text-indigo-300 font-medium">St. Xavier School</span>
+                    </div>
+                </div>
+                <div class="hidden lg:flex space-x-8 text-sm font-medium text-slate-300">
+                    <a href="#overview" class="hover:text-indigo-400 transition-colors py-2 border-b-2 border-transparent hover:border-indigo-400">សង្ខេបកម្មវិធី</a>
+                    <a href="#schedule" class="hover:text-indigo-400 transition-colors py-2 border-b-2 border-transparent hover:border-indigo-400">កាលវិភាគ ០៣ ថ្ងៃ</a>
+                    <a href="#analytics" class="hover:text-indigo-400 transition-colors py-2 border-b-2 border-transparent hover:border-indigo-400">ការវិភាគពេលវេលា</a>
+                    <a href="#reflection" class="hover:text-indigo-400 transition-colors py-2 border-b-2 border-transparent hover:border-indigo-400">ការឆ្លុះបញ្ចាំង</a>
+                    <a href="#location" class="hover:text-indigo-400 transition-colors py-2 border-b-2 border-transparent hover:border-indigo-400">ទីតាំង និងទំនាក់ទំនង</a>
+                </div>
+                <div>
+                    <button onclick="openModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition shadow-md hover:shadow-indigo-500/25 border border-indigo-400/30 flex items-center gap-2">
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                        <span>បញ្ជាក់វត្តមាន / សាកសួរ</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Header Banner -->
+    <header class="bg-gradient-to-b from-slate-900 via-indigo-950 to-slate-900 text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden border-b border-indigo-900/60">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-indigo-500/10 via-transparent to-transparent pointer-events-none"></div>
+
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 text-indigo-300 text-xs sm:text-sm font-medium border border-indigo-500/20 mb-6 shadow-sm">
+                <i class="fa-solid fa-sparkles text-amber-400 text-xs animate-pulse"></i>
+                កម្មវិធីសិក្ខាសាលាអភិវឌ្ឍន៍វិជ្ជាជីវៈគ្រូបង្រៀន ឆ្នាំសិក្សា ២០២៦-២០២៧
+            </span>
+
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 leading-tight">
+                កម្មវិធីសិក្ខាសាលារយៈពេល <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-amber-500">០៣ ថ្ងៃ</span>
+            </h1>
+
+            <div class="my-6 max-w-4xl mx-auto space-y-2">
+                <p class="text-xl sm:text-3xl font-bold text-amber-400 leading-snug">
+                    «ពីការឆ្លុះបញ្ចាំងទៅការអភិវឌ្ឍ៖ កសាងវប្បធម៌រៀនសូត្រស៊ីជម្រៅ»
+                </p>
+                <p class="text-sm sm:text-lg text-slate-300 italic font-light tracking-wide">
+                    Topic: "From Reflection to Growth: Building a Culture of Deep Learning"
+                </p>
+            </div>
+
+            <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed mb-10">
+                សូមគោរពអញ្ជើញលោកគ្រូ-អ្នកគ្រូទាំងអស់ចូលរួមក្នុងកម្មវិធីសិក្ខាសាលានេះ ឱ្យបានគ្រប់ៗគ្នា ដើម្បីរួមគ្នាពង្រឹងគុណវុឌ្ឍិ និងការរៀបចំសកម្មភាពបង្រៀនប្រកបដោយប្រសិទ្ធភាពខ្ពស់។
+            </p>
+
+            <!-- Key Info Cards Grid with Graphic Icons -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto text-left">
+                <div class="bg-slate-800/80 backdrop-blur-md p-5 rounded-2xl border border-slate-700/80 shadow-lg flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xl shrink-0 text-amber-400">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">កាលបរិច្ឆេទ</span>
+                        <p class="text-base font-bold text-white mt-0.5">២១ - ២៣ កញ្ញា ២០២៦</p>
+                        <p class="text-xs text-amber-400 mt-1 font-medium">រយៈពេល ០៣ ថ្ងៃពេញ</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800/80 backdrop-blur-md p-5 rounded-2xl border border-slate-700/80 shadow-lg flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-xl shrink-0 text-indigo-400">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">ពេលវេលា</span>
+                        <p class="text-base font-bold text-white mt-0.5">ព្រឹក ៨:០០ - ១១:០០</p>
+                        <p class="text-xs text-indigo-300 mt-0.5">រសៀល ១:០០ - ៤:០០</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800/80 backdrop-blur-md p-5 rounded-2xl border border-slate-700/80 shadow-lg flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-xl shrink-0 text-emerald-400">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">ទីតាំង</span>
+                        <p class="text-base font-bold text-white mt-0.5">បន្ទប់សមាធិ</p>
+                        <p class="text-xs text-emerald-400 mt-1 font-medium">អគារពណ៌លឿង (អនុវិទ្យាល័យ)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-16">
+
+        <!-- Overview Section -->
+        <section id="overview" class="scroll-mt-24">
+            <div class="max-w-3xl mb-10">
+                <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest bg-indigo-50 px-3 py-1 rounded-md border border-indigo-100">សេចក្ដីសង្ខេប</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">គោលបំណង និងសារៈសំខាន់នៃសិក្ខាសាលា</h2>
+                <p class="text-slate-600 mt-3 leading-relaxed text-sm sm:text-base">
+                    កម្មវិធីសិក្ខាសាលាអភិវឌ្ឍន៍វិជ្ជាជីវៈ ឆ្នាំសិក្សា ២០២៦-២០២៧ ត្រូវបានរៀបចំឡើងយ៉ាងសម្រិតសម្រាំង ដើម្បីផ្ដល់ឱកាសជូនលោកគ្រូ-អ្នកគ្រូទាំងអស់នៃសាលា សន្តសាវីយេ ក្នុងការឆ្លុះបញ្ចាំងពីបទពិសោធន៍បង្រៀន ផ្លាស់ប្ដូរយុទ្ធសាស្ត្រថ្មីៗ និងកសាងផែនការសកម្មភាពជាក់ស្តែង សម្រាប់លើកកម្ពស់គុណភាពអប់រំ។
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-lg mb-4 border border-indigo-100">
+                        <i class="fa-solid fa-lightbulb text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg mb-2">ការឆ្លុះបញ្ចាំង (Reflection)</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        វិភាគឡើងវិញលើចំណុចខ្លាំង បញ្ហាប្រឈម និងមេរៀនដែលទទួលបានពីការបង្រៀននាពេលកន្លងមក ដើម្បីកែលម្អបន្ថែម។
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-lg mb-4 border border-emerald-100">
+                        <i class="fa-solid fa-book-bookmark text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg mb-2">ការរៀនសូត្រស៊ីជម្រៅ</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        ស្វែងយល់ និងអនុវត្តវិធីសាស្ត្របង្រៀនសកម្ម (Active Learning) ដែលជំរុញឱ្យសិស្សចេះគិត វិភាគ និងបង្កើតថ្មី។
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-lg mb-4 border border-amber-100">
+                        <i class="fa-solid fa-bullseye text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg mb-2">ផែនការសកម្មភាព</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        រៀបចំផែនការបង្រៀនជាក់ស្តែងតាមមុខវិជ្ជា និងថ្នាក់រៀននីមួយៗ ដោយមានការគាំទ្រ និងផ្ដល់យោបល់ពីសហការី។
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold text-lg mb-4 border border-purple-100">
+                        <i class="fa-solid fa-people-group text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg mb-2">វប្បធម៌សហការ</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        កសាងបណ្តាញទំនាក់ទំនង និងវប្បធម៌ចែករំលែករវាងលោកគ្រូ-អ្នកគ្រូគ្រប់កម្រិតថ្នាក់ក្នុងសាលាទាំងមូល។
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Detailed Schedule -->
+        <section id="schedule" class="scroll-mt-24">
+            <div class="max-w-3xl mb-8">
+                <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest bg-indigo-50 px-3 py-1 rounded-md border border-indigo-100">កាលវិភាគលម្អិត</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">កម្មវិធីសិក្ខាសាលា ០៣ ថ្ងៃ</h2>
+                <p class="text-slate-600 mt-2 text-sm sm:text-base">
+                    សូមចុចជ្រើសរើសថ្ងៃនីមួយៗខាងក្រោម ដើម្បីពិនិត្យមើលប្រធានបទ និងសកម្មភាពលម្អិត ទាំងវគ្គព្រឹក និងវគ្គរសៀល។
+                </p>
+            </div>
+
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden">
+                <!-- Tab Buttons -->
+                <div class="flex border-b border-slate-200 bg-slate-100/80 p-2 gap-2 overflow-x-auto">
+                    <button onclick="switchTab('day1')" id="tab-day1" class="tab-btn flex-1 min-w-[200px] py-3.5 px-4 rounded-2xl font-bold text-sm transition-all duration-200 text-slate-800 bg-white shadow-sm border border-slate-200 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-calendar-day text-indigo-600"></i>
+                        <div class="text-left">
+                            <span>ថ្ងៃទី ១៖ ចន្ទ ២១ កញ្ញា</span>
+                            <span class="block text-xs font-medium text-indigo-600 mt-0.5">ការឆ្លុះបញ្ចាំង (Reflection)</span>
+                        </div>
+                    </button>
+                    <button onclick="switchTab('day2')" id="tab-day2" class="tab-btn flex-1 min-w-[200px] py-3.5 px-4 rounded-2xl font-bold text-sm transition-all duration-200 text-slate-500 hover:text-slate-800 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-calendar-day text-slate-400"></i>
+                        <div class="text-left">
+                            <span>ថ្ងៃទី ២៖ អង្គារ ២២ កញ្ញា</span>
+                            <span class="block text-xs font-medium text-slate-400 mt-0.5">ការរៀនសូត្រស៊ីជម្រៅ</span>
+                        </div>
+                    </button>
+                    <button onclick="switchTab('day3')" id="tab-day3" class="tab-btn flex-1 min-w-[200px] py-3.5 px-4 rounded-2xl font-bold text-sm transition-all duration-200 text-slate-500 hover:text-slate-800 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-calendar-day text-slate-400"></i>
+                        <div class="text-left">
+                            <span>ថ្ងៃទី ៣៖ ពុធ ២៣ កញ្ញា</span>
+                            <span class="block text-xs font-medium text-slate-400 mt-0.5">ផែនការសកម្មភាព & ការបិទ</span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Tab Contents -->
+                <div class="p-6 sm:p-8">
+                    <!-- Day 1 Content -->
+                    <div id="content-day1" class="tab-content space-y-6">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-indigo-50/70 p-4 rounded-2xl border border-indigo-100 gap-2">
+                            <div>
+                                <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">ប្រធានបទប្រចាំថ្ងៃទី ១</span>
+                                <h4 class="text-base sm:text-lg font-bold text-slate-900">ការឆ្លុះបញ្ចាំងលើបទពិសោធន៍បង្រៀន និងបញ្ហាប្រឈម</h4>
+                            </div>
+                            <span class="inline-self-start sm:self-auto bg-indigo-600 text-white text-xs px-3.5 py-1.5 rounded-full font-semibold flex items-center gap-1.5">
+                                <i class="fa-solid fa-clock text-xs"></i> ថ្ងៃចន្ទ ទី២១ កញ្ញា
+                            </span>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex flex-col sm:flex-row gap-4 p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:bg-slate-50 transition">
+                                <div class="sm:w-40 shrink-0 font-bold text-indigo-700 text-sm sm:text-base flex items-center gap-2 sm:block">
+                                    <i class="fa-regular fa-clock text-indigo-500"></i> ០៨:០០ - ០៩:៣០ 
+                                    <span class="block text-xs text-slate-500 font-normal">វគ្គព្រឹក</span>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-bold text-slate-900 text-base">ពិធីបើក និងការណែនាំទស្សនវិស័យ</h5>
+                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">
+                                        បទបង្ហាញពីគណៈគ្រប់គ្រងសាលា អំពីទស្សនវិស័យឆ្នាំសិក្សា ២០២៦-២០២៧ និងការណែនាំពីសារៈសំខាន់នៃការឆ្លុះបញ្ចាំងខ្លួនឯងរបស់គ្រូបង្រៀន។
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row gap-4 p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:bg-slate-50 transition">
+                                <div class="sm:w-40 shrink-0 font-bold text-indigo-700 text-sm sm:text-base flex items-center gap-2 sm:block">
+                                    <i class="fa-regular fa-clock text-indigo-500"></i> ០៩:៣០ - ១១:០០ 
+                                    <span class="block text-xs text-slate-500 font-normal">វគ្គព្រឹក</span>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-bold text-slate-900 text-base">កិច្ចពិភាក្សាក្រុម៖ ឆ្លុះបញ្ចាំងពីលទ្ធផលឆ្នាំចាស់</h5>
+                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">
+                                        ការចែករំលែកជាក្រុមតូចៗនូវចំណុចខ្លាំង បញ្ហាប្រឈម និងមេរៀនដែលទទួលបានពីការបង្រៀននាឆ្នាំសិក្សាកន្លងមក។
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row gap-4 p-4 rounded-2xl bg-amber-50/60 border border-amber-200/60 items-center">
+                                <div class="sm:w-40 font-bold text-amber-700 text-sm flex items-center gap-1.5">
+                                    <i class="fa-solid fa-utensils text-amber-600"></i> ១១:០០ - ០១:០០
+                                </div>
+                                <div class="flex-1 text-sm font-semibold text-amber-900 flex items-center gap-2">
+                                    <i class="fa-solid fa-mug-hot text-amber-600"></i> សម្រាកពិសាអាហារថ្ងៃត្រង់ និងសាកថាមពល
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row gap-4 p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:bg-slate-50 transition">
+                                <div class="sm:w-40 shrink-0 font-bold text-indigo-700 text-sm sm:text-base flex items-center gap-2 sm:block">
+                                    <i class="fa-regular fa-clock text-indigo-500"></i> ០១:០០ - ០៤:០០ 
+                                    <span class="block text-xs text-slate-500 font-normal">វគ្គរសៀល</span>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-bold text-slate-900 text-base">សិក្ខាសាលាអនុវត្ត៖ ក្របខ័ណ្ឌឆ្លុះបញ្ចាំង (Reflection Framework)</h5>
+                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">
+                                        ការអនុវត្តប្រើប្រាស់ឧបករណ៍ឆ្លុះបញ្ចាំងខ្លួនឯង ដើម្បីទាញយកមេរៀន និងកត់សម្គាល់ចំណុចដែលត្រូវកែលម្អក្នុងថ្នាក់រៀនផ្ទាល់។
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Day 2 Content -->
+                    <div id="content-day2" class="tab-content hidden space-y-6">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-emerald-50/70 p-4 rounded-2xl border border-emerald-100 gap-2">
+                            <div>
+                                <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">ប្រធានបទប្រចាំថ្ងៃទី ២</span>
+                                <h4 class="text-base sm:text-lg font-bold text-slate-900">យុទ្ធសាស្ត្រកសាងវប្បធម៌រៀនសូត្រស៊ីជម្រៅ (Deep Learning)</h4>
+                            </div>
+                            <span class="inline-self-start sm:self-auto bg-emerald-600 text-white text-xs px-3.5 py-1.5 rounded-full font-semibold flex items-center gap-1.5">
+                                <i class="fa-solid fa-clock text-xs"></i> ថ្ងៃអង្គារ ទី២២ កញ្ញា
+                            </span>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex flex-col sm:flex-row gap-4 p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:bg-slate-50 transition">
+                                <div class="sm:w-40 shrink-0 font-bold text-emerald-700 text-sm sm:text-base flex items-center gap-2 sm:block">
+                                    <i class="fa-regular fa-clock text-emerald-500"></i> ០៨:០០ - ១១:០០ 
+                                    <span class="block text-xs text-slate-500 font-normal">វគ្គព្រឹក</span>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-bold text-slate-900 text-base">វិធីសាស្ត្របង្រៀនសកម្ម និងការគិតកម្រិតខ្ពស់</h5>
+                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">
+                                        ការរៀបចំសកម្មភាពថ្នាក់រៀនដែលជំរុញឱ្យសិស្សចេះសួរ សិក្សាស្រាវជ្រាវ វិភាគ និងដោះស្រាយបញ្ហាប្រឈមដោយខ្លួនឯង។
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row gap-4 p-4 rounded-2xl bg-amber-50/60 border border-amber-200/60 items-center">
+                                <div class="sm:w-40 font-bold text-amber-700 text-sm flex items-center gap-1.5">
+                                    <i class="fa-solid fa-utensils text-amber-600"></i> ១១:០០ - ០១:០០
+                                </div>
+                                <div class="flex-1 text-sm font-semibold text-amber-900 flex items-center gap-2">
+                                    <i class="fa-solid fa-mug-hot text-amber-600"></i> សម្រាកពិសាអាហារថ្ងៃត្រង់
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row gap-4 p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:bg-slate-50 transition">
+                                <div class="sm:w-40 shrink-0 font-bold text-emerald-700 text-sm sm:text-base flex items-center gap-2 sm:block">
+                                    <i class="fa-regular fa-clock text-emerald-500"></i> ០១:០០ - ០៤:០០ 
+                                    <span class="block text-xs text-slate-500 font-normal">វគ្គរសៀល</span>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-bold text-slate-900 text-base">ការបង្កើតបរិយាកាសថ្នាក់រៀនបែបវិជ្ជមាន</h5>
+                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">
+                                        ការរៀបចំបន្ទប់រៀន វិន័យវិជ្ជមាន និងការលើកទឹកចិត្តសិស្សឱ្យក្លាយជាអ្នករៀនសូត្រពេញមួយជីវិត (Life-long Learners)។
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Day 3 Content -->
+                    <div id="content-day3" class="tab-content hidden space-y-6">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-purple-50/70 p-4 rounded-2xl border border-purple-100 gap-2">
+                            <div>
+                                <span class="text-xs font-bold text-purple-600 uppercase tracking-wider">ប្រធានបទប្រចាំថ្ងៃទី ៣</span>
+                                <h4 class="text-base sm:text-lg font-bold text-slate-900">ការរៀបចំផែនការសកម្មភាព និងការប្តេជ្ញាចិត្តរួម</h4>
+                            </div>
+                            <span class="inline-self-start sm:self-auto bg-purple-600 text-white text-xs px-3.5 py-1.5 rounded-full font-semibold flex items-center gap-1.5">
+                                <i class="fa-solid fa-clock text-xs"></i> ថ្ងៃពុធ ទី២៣ កញ្ញា
+                            </span>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex flex-col sm:flex-row gap-4 p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:bg-slate-50 transition">
+                                <div class="sm:w-40 shrink-0 font-bold text-purple-700 text-sm sm:text-base flex items-center gap-2 sm:block">
+                                    <i class="fa-regular fa-clock text-purple-500"></i> ០៨:០០ - ១១:០០ 
+                                    <span class="block text-xs text-slate-500 font-normal">វគ្គព្រឹក</span>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-bold text-slate-900 text-base">ការបង្កើតផែនការសកម្មភាពបង្រៀន (Action Plan)</h5>
+                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">
+                                        លោកគ្រូ-អ្នកគ្រូម្នាក់ៗរៀបចំផែនការអនុវត្តជាក់ស្តែងសម្រាប់មុខវិជ្ជា និងថ្នាក់រៀនរបស់ខ្លួន សម្រាប់ឆ្នាំសិក្សា ២០២៦-២០២៧។
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row gap-4 p-4 rounded-2xl bg-amber-50/60 border border-amber-200/60 items-center">
+                                <div class="sm:w-40 font-bold text-amber-700 text-sm flex items-center gap-1.5">
+                                    <i class="fa-solid fa-utensils text-amber-600"></i> ១១:០០ - ០១:០០
+                                </div>
+                                <div class="flex-1 text-sm font-semibold text-amber-900 flex items-center gap-2">
+                                    <i class="fa-solid fa-mug-hot text-amber-600"></i> សម្រាកពិសាអាហារថ្ងៃត្រង់
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row gap-4 p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:bg-slate-50 transition">
+                                <div class="sm:w-40 shrink-0 font-bold text-purple-700 text-sm sm:text-base flex items-center gap-2 sm:block">
+                                    <i class="fa-regular fa-clock text-purple-500"></i> ០១:០០ - ០៤:០០ 
+                                    <span class="block text-xs text-slate-500 font-normal">វគ្គរសៀល</span>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-bold text-slate-900 text-base">ការបង្ហាញផែនការ សេចក្ដីសន្និដ្ឋាន និងពិធីបិទ</h5>
+                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">
+                                        ការបង្ហាញលទ្ធផលសង្ខេប បង្កើតបណ្តាញគាំទ្រគ្នាទៅវិញទៅមក និងពិធីបិទសិក្ខាសាលាដោយជោគជ័យ។
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Data Analytics Section -->
+        <section id="analytics" class="scroll-mt-24">
+            <div class="max-w-3xl mb-8">
+                <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest bg-indigo-50 px-3 py-1 rounded-md border border-indigo-100">ការវិភាគទិន្នន័យ</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">ការវិភាគពេលវេលា និងទម្ងន់ប្រធានបទ</h2>
+                <p class="text-slate-600 mt-2 text-sm sm:text-base">
+                    ក្រាហ្វបង្ហាញពីការបែងចែកម៉ោងសិក្សាសរុប ១៨ ម៉ោង និងទម្ងន់នៃប្រធានបទសំខាន់ៗក្នុងសិក្ខាសាលា ០៣ ថ្ងៃនេះ។
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Chart 1: Time Breakdown -->
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base sm:text-lg mb-1 text-center">ការបែងចែកពេលវេលា តាមសកម្មភាព (សរុប ១៨ ម៉ោង)</h3>
+                        <p class="text-xs text-slate-500 text-center mb-6">ភាគរយនៃម៉ោងចំណាយលើសកម្មភាពនីមួយៗ</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="timeChart"></canvas>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-500 text-center flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-lightbulb text-indigo-600"></i> ចំណាយពេលភាគច្រើនលើការអនុវត្តជាក់ស្តែង និងការពិភាក្សាក្រុម។
+                    </div>
+                </div>
+
+                <!-- Chart 2: Competency Breakdown -->
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base sm:text-lg mb-1 text-center">ទម្ងន់នៃប្រធានបទអភិវឌ្ឍន៍វិជ្ជាជីវៈ</h3>
+                        <p class="text-xs text-slate-500 text-center mb-6">កម្រិតផ្តោតសំខាន់លើជំនាញនីមួយៗ (%)</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="topicChart"></canvas>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-500 text-center flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-bullseye text-indigo-600"></i> ផ្តោតសំខាន់លើការរៀនសូត្រស៊ីជម្រៅ (Deep Learning) និងការឆ្លុះបញ្ចាំង (Reflection)។
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Pre-Workshop Reflection Tool -->
+        <section id="reflection" class="scroll-mt-24">
+            <div class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-xl border border-indigo-800/60 relative overflow-hidden">
+                <div class="max-w-3xl relative z-10">
+                    <span class="text-xs uppercase font-bold text-amber-400 tracking-wider bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20 inline-flex items-center gap-1.5">
+                        <i class="fa-solid fa-sliders text-amber-400"></i> Self-Reflection Tool
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-bold mt-3 mb-3">ការវាយតម្លៃ និងឆ្លុះបញ្ចាំងខ្លួនឯងមុនចូលរួម</h2>
+                    <p class="text-slate-300 text-sm sm:text-base mb-8 leading-relaxed">
+                        សូមលោកគ្រូ-អ្នកគ្រូចំណាយពេល ២ នាទី ដើម្បីឆ្លើយសំណួរឆ្លុះបញ្ចាំងខ្លីៗទាំងនេះ ដើម្បីរៀបចំស្មារតី និងកំណត់គោលដៅមុនចូលរួមសិក្ខាសាលា។
+                    </p>
+
+                    <div class="space-y-6 bg-slate-800/90 backdrop-blur-md p-6 sm:p-8 rounded-2xl border border-slate-700/80 shadow-inner">
+                        <div>
+                            <label class="block text-sm font-semibold mb-3 text-indigo-200">
+                                ១. តើលោកគ្រូ-អ្នកគ្រូជឿជាក់កម្រិតណាលើការអនុវត្តវិធីសាស្ត្របង្រៀនស៊ីជម្រៅនាពេលបច្ចុប្បន្ន?
+                            </label>
+                            <input type="range" min="1" max="10" value="7" id="scoreRange" class="w-full accent-amber-400 cursor-pointer h-2 bg-slate-700 rounded-lg" oninput="updateScore(this.value)">
+                            <div class="flex justify-between text-xs text-slate-400 mt-2 font-medium">
+                                <span>កម្រិតទាប (1)</span>
+                                <span id="scoreVal" class="font-bold text-amber-400 text-base">7 / 10</span>
+                                <span>ខ្ពស់បំផុត (10)</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold mb-2 text-indigo-200">
+                                ២. តើចំណុចណាដែលលោកគ្រូ-អ្នកគ្រូចង់អភិវឌ្ឍខ្លាំងបំផុតក្នុងឆ្នាំសិក្សាថ្មីនេះ?
+                            </label>
+                            <select id="focusArea" class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                                <option>ការរៀបចំសកម្មភាពបង្រៀនបែបសកម្ម (Active Learning)</option>
+                                <option>ការគ្រប់គ្រងថ្នាក់រៀន និងវិន័យវិជ្ជមាន</option>
+                                <option>ការប្រើប្រាស់បច្ចេកវិទ្យាក្នុងការបង្រៀន</option>
+                                <option>ការវាយតម្លៃ និងការផ្ដល់ព័ត៌មានត្រឡប់ (Feedback)</option>
+                            </select>
+                        </div>
+
+                        <button onclick="submitAssessment()" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold py-3 rounded-xl transition shadow-lg text-sm mt-2 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>ទទួលបានអនុសាសន៍រៀបចំខ្លួន</span>
+                        </button>
+                    </div>
+
+                    <div id="assessmentResult" class="hidden mt-6 p-5 bg-indigo-950/90 border border-indigo-500/40 rounded-2xl text-sm text-indigo-100 shadow-md">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Location & Contact Section -->
+        <section id="location" class="scroll-mt-24">
+            <div class="max-w-3xl mb-8">
+                <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest bg-indigo-50 px-3 py-1 rounded-md border border-indigo-100">ព័ត៌មានទីតាំង</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">ទីតាំង និងការទំនាក់ទំនង</h2>
+                <p class="text-slate-600 mt-2 text-sm sm:text-base">
+                    ប្រសិនបើលោកគ្រូ-អ្នកគ្រូមានចម្ងល់ ឬត្រូវការព័ត៌មានបន្ថែម សូមទំនាក់ទំនងមកកាន់ផ្នែករដ្ឋបាលរៀងរាល់ម៉ោងធ្វើការ។
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-sm hover:border-indigo-200 transition">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xl mb-4 border border-indigo-100">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 mb-1">ទីតាំងប្រជុំ</h3>
+                    <p class="text-sm font-semibold text-slate-700">បន្ទប់សមាធិ</p>
+                    <p class="text-sm text-slate-500">អគារពណ៌លឿង (ផ្នែកអនុវិទ្យាល័យ)</p>
+                    <p class="text-xs text-indigo-600 font-medium mt-3">សាលា សន្តសាវីយេ</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-sm hover:border-emerald-200 transition">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xl mb-4 border border-emerald-100">
+                        <i class="fa-solid fa-business-time"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 mb-1">ម៉ោងធ្វើការ</h3>
+                    <p class="text-sm text-slate-600">រៀងរាល់ម៉ោងធ្វើការ (ចន្ទ - សុក្រ)</p>
+                    <p class="text-xs text-slate-500 mt-2">• ពេលព្រឹក: ៧:៣០ - ១១:៣០</p>
+                    <p class="text-xs text-slate-500">• ពេលរសៀល: ១:៣០ - ៥:០០</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-sm hover:border-amber-200 transition flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xl mb-4 border border-amber-100">
+                            <i class="fa-solid fa-headset"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 mb-1">ការសាកសួរព័ត៌មាន</h3>
+                        <p class="text-sm text-slate-600">លោកគ្រូ-អ្នកគ្រូអាចទាក់ទងផ្ទាល់ ឬផ្ញើសារសាកសួរបាន</p>
+                    </div>
+                    <button onclick="openModal()" class="mt-6 w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold py-3 rounded-xl transition shadow-md flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-comment-dots"></i>
+                        <span>ផ្ញើសារសាកសួរនៅទីនេះ</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-10 border-t border-slate-800 text-center text-sm">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-center items-center space-x-2 mb-3">
+                <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-xs text-white">
+                    <i class="fa-solid fa-school"></i>
+                </div>
+                <span class="font-bold text-white text-base">សាលា សន្តសាវីយេ (St. Xavier School)</span>
+            </div>
+            <p class="text-xs text-slate-500 max-w-lg mx-auto leading-relaxed">
+                កម្មវិធីសិក្ខាសាលាអភិវឌ្ឍន៍វិជ្ជាជីវៈគ្រូបង្រៀន ឆ្នាំសិក្សា ២០២៦-២០២៧ <br>
+                «ពីការឆ្លុះបញ្ចាំងទៅការអភិវឌ្ឍ៖ កសាងវប្បធម៌រៀនសូត្រស៊ីជម្រៅ»
+            </p>
+        </div>
+    </footer>
+
+    <!-- RSVP / Inquiry Modal Dialog -->
+    <div id="inquiryModal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative border border-slate-200">
+            <button onclick="closeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 font-bold text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-bold text-slate-900 mb-1">ទម្រង់ទំនាក់ទំនង / បញ្ជាក់វត្តមាន</h3>
+            <p class="text-xs text-slate-500 mb-6">សូមបញ្ចូលព័ត៌មានខាងក្រោម ដើម្បីផ្ញើសារ ឬសាកសួរចម្ងល់បន្ថែម។</p>
+
+            <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">ឈ្មោះលោកគ្រូ-អ្នកគ្រូ *</label>
+                    <input type="text" required placeholder="ឧ. កែវ សុខា" class="w-full border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">កម្រិតថ្នាក់ / មុខវិជ្ជាទទួលបន្ទុក</label>
+                    <input type="text" placeholder="ឧ. បឋមសិក្សា / ភាសាខ្មែរ" class="w-full border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">សារ ឬសំណួរចម្ងល់ *</label>
+                    <textarea required rows="3" placeholder="សូមសរសេរសំណួរ ឬសំណូមពររបស់អ្នក..." class="w-full border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-sm transition shadow-md flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>ផ្ញើសារជូនដំណឹង</span>
+                </button>
+            </form>
+
+            <div id="formSuccess" class="hidden mt-4 p-4 bg-emerald-50 text-emerald-800 rounded-xl text-xs font-medium text-center border border-emerald-200 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-circle-check text-emerald-600 text-base"></i>
+                <span>សាររបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ! ក្រុមការងារនឹងទាក់ទងត្រឡប់ទៅវិញឆាប់ៗ។</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Interactions -->
+    <script>
+        function switchTab(dayId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'shadow-sm', 'border', 'border-slate-200', 'text-slate-800');
+                btn.classList.add('text-slate-500');
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('text-indigo-600');
+                    icon.classList.add('text-slate-400');
+                }
+            });
+
+            document.getElementById('content-' + dayId).classList.remove('hidden');
+            const activeTab = document.getElementById('tab-' + dayId);
+            activeTab.classList.add('bg-white', 'shadow-sm', 'border', 'border-slate-200', 'text-slate-800');
+            activeTab.classList.remove('text-slate-500');
+            const activeIcon = activeTab.querySelector('i');
+            if (activeIcon) {
+                activeIcon.classList.remove('text-slate-400');
+                activeIcon.classList.add('text-indigo-600');
+            }
+        }
+
+        function updateScore(val) {
+            document.getElementById('scoreVal').innerText = val + ' / 10';
+        }
+
+        function submitAssessment() {
+            const val = document.getElementById('scoreRange').value;
+            const area = document.getElementById('focusArea').value;
+            const resDiv = document.getElementById('assessmentResult');
+
+            resDiv.innerHTML = `
+                <div class="flex items-start gap-3">
+                    <i class="fa-solid fa-circle-check text-amber-400 text-xl shrink-0 mt-0.5"></i>
+                    <div>
+                        <p class="font-bold text-amber-400 mb-1">អរគុណសម្រាប់ការចែករំលែកការឆ្លុះបញ្ចាំង!</p>
+                        <p class="text-xs sm:text-sm leading-relaxed text-indigo-100">
+                            លោកគ្រូ-អ្នកគ្រូបានវាយតម្លៃកម្រិតជឿជាក់៖ <strong>${val}/10</strong> និងជ្រើសរើសការអភិវឌ្ឍលើ៖ <strong>${area}</strong>។ <br>
+                            ក្នុងសិក្ខាសាលា ០៣ ថ្ងៃនេះ លោកគ្រូ-អ្នកគ្រូនឹងទទួលបានឧបករណ៍ជាក់ស្តែង និងការចែករំលែកបទពិសោធន៍ដើម្បីពង្រឹងចំណុចនេះ!
+                        </p>
+                    </div>
+                </div>
+            `;
+            resDiv.classList.remove('hidden');
+        }
+
+        function openModal() {
+            document.getElementById('inquiryModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('inquiryModal').classList.add('hidden');
+            document.getElementById('formSuccess').classList.add('hidden');
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            document.getElementById('formSuccess').classList.remove('hidden');
+            setTimeout(() => {
+                closeModal();
+            }, 2200);
+        }
+
+        window.onload = function() {
+            const ctxTime = document.getElementById('timeChart').getContext('2d');
+            new Chart(ctxTime, {
+                type: 'doughnut',
+                data: {
+                    labels: ['ការពិភាក្សាក្រុម (6h)', 'ការអនុវត្តជាក់ស្តែង (6h)', 'បទបង្ហាញ & មតិ (4h)', 'ការរៀបចំផែនការ (2h)'],
+                    datasets: [{
+                        data: [6, 6, 4, 2],
+                        backgroundColor: ['#4f46e5', '#10b981', '#f59e0b', '#8b5cf6'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { font: { family: 'Kantumruuy Pro', size: 11 } }
+                        }
+                    }
+                }
+            });
+
+            const ctxTopic = document.getElementById('topicChart').getContext('2d');
+            new Chart(ctxTopic, {
+                type: 'bar',
+                data: {
+                    labels: ['ការឆ្លុះបញ្ចាំង', 'រៀនសូត្រស៊ីជម្រៅ', 'គ្រប់គ្រងថ្នាក់', 'ផែនការសកម្មភាព'],
+                    datasets: [{
+                        label: 'កម្រិតផ្តោតសំខាន់ (%)',
+                        data: [30, 35, 15, 20],
+                        backgroundColor: '#4f46e5',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 40,
+                            ticks: { font: { family: 'Kantumruuy Pro' } }
+                        },
+                        x: {
+                            ticks: { font: { family: 'Kantumruuy Pro', size: 11 } }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>
