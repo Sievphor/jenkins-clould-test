@@ -5,7 +5,7 @@ pipeline {
         DOCKER_HUB_USER = 'phor2026'
         IMAGE_NAME      = 'jenkins-demo-app'
         EC2_IP          = '3.107.9.73'
-        EC2_USER        = 'ubuntu'        // ឬ root ឬ ec2-user តាម OS របស់ EC2
+        EC2_USER        = 'ubuntu'
         APP_PORT        = '9099'
     }
 
@@ -17,14 +17,22 @@ pipeline {
             }
         }
 
-        stage('2. Build Docker Image') {
+        stage('2. Build Docker Image (PHP)') {
             steps {
-                echo "🔨 Building Docker Image: ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER}..."
+                echo "🔨 Building PHP Docker Image: ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER}..."
                 sh "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER} ."
             }
         }
 
-        stage('3. Push to Docker Hub') {
+        stage('3. Test PHP Syntax') {
+            steps {
+                echo "🧪 Testing PHP Syntax..."
+                sh "docker run --rm --entrypoint php ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest -l /var/www/html/index.php"
+                echo "✅ PHP Syntax check passed!"
+            }
+        }
+
+        stage('4. Push to Docker Hub') {
             steps {
                 echo "🚀 Logging in and Pushing Image to Docker Hub..."
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
@@ -36,9 +44,9 @@ pipeline {
             }
         }
 
-        stage('4. Deploy to AWS EC2') {
+        stage('5. Deploy to AWS EC2') {
             steps {
-                echo "🚢 Connecting via SSH to AWS EC2 (${EC2_IP}) and Deploying..."
+                echo "🚢 Connecting via SSH to AWS EC2 (${EC2_IP}) and Deploying PHP Container..."
                 sshagent(['ec2-server-key']) {
                     sh """
                         ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} "
@@ -49,7 +57,7 @@ pipeline {
                         "
                     """
                 }
-                echo "🎉 Deployed to AWS EC2 successfully! Check at http://${EC2_IP}:${APP_PORT}"
+                echo "🎉 Deployed PHP App to AWS EC2 successfully! Check at http://${EC2_IP}:${APP_PORT}"
             }
         }
     }
@@ -60,8 +68,8 @@ pipeline {
         }
         success {
             echo "🟢 ========================================================="
-            echo "🟢 CI/CD PIPELINE & DEPLOY TO AWS EC2 SUCCEEDED 100%!"
-            echo "🟢 Web App Running on AWS: http://3.107.9.73:9099"
+            echo "🟢 PHP CI/CD PIPELINE & DEPLOY TO AWS EC2 SUCCEEDED 100%!"
+            echo "🟢 PHP App Running on AWS: http://3.107.9.73:9099"
             echo "🟢 Docker Hub: https://hub.docker.com/r/phor2026/jenkins-demo-app"
             echo "🟢 ========================================================="
         }
