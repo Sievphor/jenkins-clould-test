@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="km" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ឯកសារណែនាំពេញលេញ Cloud Computing & CI/CD Project - RPITSB</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts Khmer -->
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruuy+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kantumruuy Pro', sans-serif;
+        }
+        code, pre {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-500 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/20">
+                    <i class="fa-solid fa-cloud"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight text-white flex items-center gap-2">
+                        Cloud Computing Capstone
+                        <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">RPITSB</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">សៀវភៅណែនាំពេញលេញ Full-Option CI/CD, Docker, Terraform & EC2</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="hidden md:flex items-center gap-2 text-xs bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>AWS EC2: <code class="text-emerald-400 font-mono">3.107.9.73:9099</code></span>
+                </div>
+                <button onclick="window.print()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-xs font-medium text-slate-200 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Print / Save PDF</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- Sidebar Navigation -->
+        <aside class="lg:col-span-3 space-y-4">
+            <div class="sticky top-24 bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1 shadow-xl">
+                <p class="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">មាតិកាមេរៀន (Modules)</p>
+                
+                <button onclick="switchTab('rubric')" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center justify-between bg-indigo-600/20 text-indigo-300 border border-indigo-500/30" data-target="rubric">
+                    <span class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-award text-indigo-400"></i>
+                        <span>១. Rubric 100 ពិន្ទុ</span>
+                    </span>
+                    <span class="text-xs bg-indigo-500/30 px-1.5 py-0.5 rounded">100 Pts</span>
+                </button>
+
+                <button onclick="switchTab('cicd-pipeline')" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center justify-between text-slate-300 hover:bg-slate-800" data-target="cicd-pipeline">
+                    <span class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-code-merge text-blue-400"></i>
+                        <span>២. Jenkins CI/CD & Webhook</span>
+                    </span>
+                    <span class="text-xs bg-blue-500/20 text-blue-300 px-1.5 py-0.5 rounded">20 Pts</span>
+                </button>
+
+                <button onclick="switchTab('stacks')" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center justify-between text-slate-300 hover:bg-slate-800" data-target="stacks">
+                    <span class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-layer-group text-emerald-400"></i>
+                        <span>៣. HTML, PHP & Python</span>
+                    </span>
+                    <span class="text-xs bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded">3 Stacks</span>
+                </button>
+
+                <button onclick="switchTab('docker-swarm')" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center justify-between text-slate-300 hover:bg-slate-800" data-target="docker-swarm">
+                    <span class="flex items-center gap-2.5">
+                        <i class="fa-brands fa-docker text-cyan-400"></i>
+                        <span>៤. Docker & Swarm Cluster</span>
+                    </span>
+                    <span class="text-xs bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded">35 Pts</span>
+                </button>
+
+                <button onclick="switchTab('load-balancer')" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center justify-between text-slate-300 hover:bg-slate-800" data-target="load-balancer">
+                    <span class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-scale-balanced text-amber-400"></i>
+                        <span>៥. Load Balancer (Nginx/HA)</span>
+                    </span>
+                    <span class="text-xs bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded">L4/L7</span>
+                </button>
+
+                <button onclick="switchTab('terraform-ec2')" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center justify-between text-slate-300 hover:bg-slate-800" data-target="terraform-ec2">
+                    <span class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-cubes text-purple-400"></i>
+                        <span>៦. Terraform & AWS EC2</span>
+                    </span>
+                    <span class="text-xs bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded">30 Pts</span>
+                </button>
+
+                <button onclick="switchTab('telegram-bonus')" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center justify-between text-slate-300 hover:bg-slate-800" data-target="telegram-bonus">
+                    <span class="flex items-center gap-2.5">
+                        <i class="fa-brands fa-telegram text-sky-400"></i>
+                        <span>៧. Telegram Bot Bonus</span>
+                    </span>
+                    <span class="text-xs bg-sky-500/20 text-sky-300 px-1.5 py-0.5 rounded">+5 Bonus</span>
+                </button>
+
+                <button onclick="switchTab('troubleshoot')" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center justify-between text-slate-300 hover:bg-slate-800" data-target="troubleshoot">
+                    <span class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-screwdriver-wrench text-rose-400"></i>
+                        <span>៨. Troubleshooting & Errors</span>
+                    </span>
+                    <span class="text-xs bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded">Fixes</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="lg:col-span-9 space-y-8">
+
+            <!-- TAB 1: PROJECT RUBRIC (100 PTS) -->
+            <section id="rubric" class="tab-content space-y-6">
+                <div class="bg-gradient-to-r from-indigo-950/60 to-slate-900 border border-indigo-800/40 rounded-3xl p-6 sm:p-8">
+                    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-indigo-800/40 pb-5">
+                        <div>
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Rubric Standard</span>
+                            <h2 class="text-2xl sm:text-3xl font-bold text-white mt-2">Cloud Computing Project Rubric (100 ពិន្ទុ)</h2>
+                            <p class="text-sm text-slate-400 mt-1">វិទ្យាស្ថានពហុបច្ចេកទេសភូមិភាគតេជោសែនបាត់ដំបង (RPITSB) — លោកគ្រូ ក្រុល នឿន</p>
+                        </div>
+                        <div class="bg-slate-900 border border-indigo-500/40 rounded-2xl px-5 py-3 text-center">
+                            <div class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-emerald-400">100 + 5</div>
+                            <div class="text-xs text-slate-400 font-medium uppercase tracking-wider">Total Score + Bonus</div>
+                        </div>
+                    </div>
+
+                    <!-- Score Table -->
+                    <div class="overflow-x-auto mt-6">
+                        <table class="w-full text-left text-sm border-collapse">
+                            <thead>
+                                <tr class="bg-slate-900/80 text-slate-300 border-b border-slate-700">
+                                    <th class="py-3 px-4 font-semibold">ផ្នែក (Category)</th>
+                                    <th class="py-3 px-4 font-semibold text-center">ពិន្ទុ (Points)</th>
+                                    <th class="py-3 px-4 font-semibold">លក្ខខណ្ឌដើម្បីបានពិន្ទុពេញ (Full Credit Criteria)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 text-slate-300">
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3.5 px-4 font-medium flex items-center gap-2">
+                                        <i class="fa-brands fa-github text-purple-400"></i>
+                                        <span>GitHub</span>
+                                    </td>
+                                    <td class="py-3.5 px-4 text-center font-bold text-purple-400">10</td>
+                                    <td class="py-3.5 px-4 text-xs leading-relaxed text-slate-300">
+                                        រចនាសម្ព័ន្ធ Folder ច្បាស់លាស់, Commit ញឹកញាប់មានន័យ (មិនមែន commit ធំតែមួយទេ), មាន Feature Branch/PR, និង README ពិស្ដារ។
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3.5 px-4 font-medium flex items-center gap-2">
+                                        <i class="fa-brands fa-jenkins text-red-400"></i>
+                                        <span>Jenkins (CI/CD)</span>
+                                    </td>
+                                    <td class="py-3.5 px-4 text-center font-bold text-red-400">20</td>
+                                    <td class="py-3.5 px-4 text-xs leading-relaxed text-slate-300">
+                                        សរសេរ <code class="text-amber-300 font-mono">Jenkinsfile</code> (Pipeline as Code), មានដំណាក់កាល Build, Test (Fail បើ test ធ្លាក់), Deploy, និងដំណើរការដោយ <strong>GitHub Webhook</strong>។
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3.5 px-4 font-medium flex items-center gap-2">
+                                        <i class="fa-solid fa-cubes text-indigo-400"></i>
+                                        <span>Terraform (IaC)</span>
+                                    </td>
+                                    <td class="py-3.5 px-4 text-center font-bold text-indigo-400">20</td>
+                                    <td class="py-3.5 px-4 text-xs leading-relaxed text-slate-300">
+                                        បង្កើត VPC, Subnet, EC2, Security Group តាមកូដ <code class="text-indigo-300 font-mono">.tf</code>, ប្រើ variables/outputs ត្រឹមត្រូវ, State management (S3 backend) និង lifecycle ស្អាត។
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3.5 px-4 font-medium flex items-center gap-2">
+                                        <i class="fa-brands fa-docker text-blue-400"></i>
+                                        <span>Docker</span>
+                                    </td>
+                                    <td class="py-3.5 px-4 text-center font-bold text-blue-400">15</td>
+                                    <td class="py-3.5 px-4 text-xs leading-relaxed text-slate-300">
+                                        Dockerfile មានគុណភាព (base image តូច), Build បានស្អាតគ្មាន error, មាន <code class="text-blue-300 font-mono">docker-compose.yml</code> សម្រាប់ local dev, និង Push ទៅ <strong>Docker Hub</strong>។
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3.5 px-4 font-medium flex items-center gap-2">
+                                        <i class="fa-solid fa-network-wired text-cyan-400"></i>
+                                        <span>Docker Swarm</span>
+                                    </td>
+                                    <td class="py-3.5 px-4 text-center font-bold text-cyan-400">20</td>
+                                    <td class="py-3.5 px-4 text-xs leading-relaxed text-slate-300">
+                                        Cluster 1 Manager + 2 Workers, Deploy តាម <code class="text-cyan-300 font-mono">docker stack deploy</code>, មាន Replicas > 1, Rolling update strategy, និង Nginx Load Balancer ត្រឹមត្រូវ។
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3.5 px-4 font-medium flex items-center gap-2">
+                                        <i class="fa-brands fa-aws text-amber-400"></i>
+                                        <span>AWS EC2</span>
+                                    </td>
+                                    <td class="py-3.5 px-4 text-center font-bold text-amber-400">10</td>
+                                    <td class="py-3.5 px-4 text-xs leading-relaxed text-slate-300">
+                                        Provision តាម Terraform, Security Group បើកតែ port ចាំបាច់ (22, 80, 9099, 2377), ប្រើ SSH Key-pair សុវត្ថិភាព និងមាន Tagging ត្រឹមត្រូវ។
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3.5 px-4 font-medium flex items-center gap-2">
+                                        <i class="fa-solid fa-file-lines text-emerald-400"></i>
+                                        <span>Documentation</span>
+                                    </td>
+                                    <td class="py-3.5 px-4 text-center font-bold text-emerald-400">5</td>
+                                    <td class="py-3.5 px-4 text-xs leading-relaxed text-slate-300">
+                                        ឯកសារ Architecture Write-up, រូបភាព Diagram ច្បាស់លាស់ និងជំហាន Setup ងាយស្រួលធ្វើតាម។
+                                    </td>
+                                </tr>
+                                <tr class="bg-indigo-950/40 hover:bg-indigo-900/40 transition">
+                                    <td class="py-3.5 px-4 font-semibold text-sky-300 flex items-center gap-2">
+                                        <i class="fa-brands fa-telegram text-sky-400 text-lg"></i>
+                                        <span>Telegram Extra Bonus</span>
+                                    </td>
+                                    <td class="py-3.5 px-4 text-center font-bold text-sky-400">+5</td>
+                                    <td class="py-3.5 px-4 text-xs leading-relaxed text-sky-200">
+                                        Jenkinsfile ផ្ញើសារស្វ័យប្រវត្តិតាម Telegram Bot API ពេល Build ចប់ (បញ្ជាក់ Success ✅ ឬ Failure ❌ ជាមួយឈ្មោះ job & build number)។
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: JENKINS CI/CD & WEBHOOK -->
+            <section id="cicd-pipeline" class="tab-content hidden space-y-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+                    <div>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-blue-500/20 text-blue-300 border border-blue-500/30">Module 1 & 2</span>
+                        <h2 class="text-2xl font-bold text-white mt-2">🚀 ការបង្កើត Jenkins CI/CD Pipeline & GitHub Webhook</h2>
+                        <p class="text-sm text-slate-400">ដំណើរការតាំងពីដំឡើង Jenkins, បើក ngrok, កំណត់ Webhook រហូតដល់ Auto-Trigger</p>
+                    </div>
+
+                    <!-- Step 1: Docker Run Jenkins -->
+                    <div class="bg-slate-950 rounded-2xl border border-slate-800 p-5 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-indigo-400 flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-xs">1</span>
+                                Run Jenkins ជាមួយ Docker Socket & Port Forwarding
+                            </h3>
+                            <button onclick="copyCode('code-docker-jenkins')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-md transition flex items-center gap-1">
+                                <i class="fa-regular fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <pre id="code-docker-jenkins" class="bg-slate-900 p-4 rounded-xl text-xs text-slate-300 overflow-x-auto border border-slate-800 leading-relaxed font-mono"><code># 1. Run Jenkins Container
+docker run -d \
+  --name jenkins \
+  -p 8080:8080 \
+  -p 50000:50000 \
+  -u root \
+  -v jenkins_home:/var/jenkins_home \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  --restart=on-failure \
+  jenkins/jenkins:lts
+
+# 2. ដំឡើង Docker CLI ក្នុង Jenkins Container ដើម្បីឱ្យវាអាច build/push បាន
+docker exec jenkins bash -c "curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-27.3.1.tgz | tar -xz -C /tmp && mv /tmp/docker/docker /usr/local/bin/ && rm -rf /tmp/docker"
+
+# 3. យក Initial Admin Password សម្រាប់ Unlock Jenkins
+docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword</code></pre>
+                    </div>
+
+                    <!-- Step 2: ngrok & Webhook -->
+                    <div class="bg-slate-950 rounded-2xl border border-slate-800 p-5 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-blue-400 flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center text-xs">2</span>
+                                បើក Public URL តាមរយៈ ngrok & កំណត់លើ GitHub
+                            </h3>
+                            <button onclick="copyCode('code-ngrok-cmd')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-md transition flex items-center gap-1">
+                                <i class="fa-regular fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <pre id="code-ngrok-cmd" class="bg-slate-900 p-4 rounded-xl text-xs text-slate-300 overflow-x-auto border border-slate-800 leading-relaxed font-mono"><code># ដំណើរការ ngrok បញ្ជូន Traffic មកកាន់ Port 8080
+ngrok http 8080
+
+# ឧទាហរណ៍ Link ដែលទទួលបាន: https://e7c9-103-216-51-112.ngrok-free.app</code></pre>
+                        
+                        <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-2">
+                            <div class="font-semibold text-white flex items-center gap-1.5">
+                                <i class="fa-brands fa-github text-purple-400"></i>
+                                ការកំណត់ Webhook លើ GitHub Repo Settings:
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-slate-400">
+                                <li><strong>Payload URL</strong>: <code class="text-emerald-400 font-mono">https://&lt;your-ngrok-url&gt;/github-webhook/</code> <span class="text-amber-400">(កុំភ្លេចសញ្ញា / នៅចុង)</span></li>
+                                <li><strong>Content type</strong>: <code class="text-blue-400 font-mono">application/json</code></li>
+                                <li><strong>Events</strong>: ជ្រើសយក <code class="text-purple-400 font-mono">Just the push event.</code></li>
+                                <li><strong>Active</strong>: ធីកយក ☑️ រួចចុច <strong>Add webhook</strong> (ចេញសញ្ញា 🟢)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: 3 APPLICATION STACKS (HTML, PHP, PYTHON) -->
+            <section id="stacks" class="tab-content hidden space-y-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+                    <div>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Multi-Language Stacks</span>
+                        <h2 class="text-2xl font-bold text-white mt-2">📁 គ្រប់កំណែគម្រោង៖ HTML, PHP និង Python</h2>
+                        <p class="text-sm text-slate-400">កូដ Dockerfile, App Code, និង Jenkinsfile សម្រាប់ភាសានីមួយៗ</p>
+                    </div>
+
+                    <!-- Inner Sub-Tabs -->
+                    <div class="flex flex-wrap gap-2 border-b border-slate-800 pb-3">
+                        <button onclick="switchSubTab('stack-html')" class="sub-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-emerald-600 text-white" data-subtarget="stack-html">
+                            <i class="fa-brands fa-html5 mr-1.5"></i> 1. HTML (Nginx)
+                        </button>
+                        <button onclick="switchSubTab('stack-php')" class="sub-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-800 text-slate-400 hover:text-white" data-subtarget="stack-php">
+                            <i class="fa-brands fa-php mr-1.5"></i> 2. PHP (Apache)
+                        </button>
+                        <button onclick="switchSubTab('stack-python')" class="sub-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-800 text-slate-400 hover:text-white" data-subtarget="stack-python">
+                            <i class="fa-brands fa-python mr-1.5"></i> 3. Python (Flask API)
+                        </button>
+                    </div>
+
+                    <!-- SUB-TAB: HTML -->
+                    <div id="stack-html" class="sub-tab-content space-y-4">
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-mono font-bold text-emerald-400">Dockerfile (HTML - Nginx)</span>
+                                <button onclick="copyCode('code-html-dockerfile')" class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-300"><i class="fa-regular fa-copy"></i> Copy</button>
+                            </div>
+                            <pre id="code-html-dockerfile" class="text-xs text-slate-300 font-mono"><code>FROM nginx:alpine
+COPY . /usr/share/nginx/html/
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]</code></pre>
+                        </div>
+
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-mono font-bold text-blue-400">Test Command ក្នុង Jenkinsfile</span>
+                            </div>
+                            <pre class="text-xs text-slate-300 font-mono"><code>stage('Test Nginx Configuration') {
+    steps {
+        sh "docker run --rm --entrypoint nginx ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest -t"
+    }
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- SUB-TAB: PHP -->
+                    <div id="stack-php" class="sub-tab-content hidden space-y-4">
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-mono font-bold text-purple-400">Dockerfile (PHP 8.2 Apache)</span>
+                                <button onclick="copyCode('code-php-dockerfile')" class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-300"><i class="fa-regular fa-copy"></i> Copy</button>
+                            </div>
+                            <pre id="code-php-dockerfile" class="text-xs text-slate-300 font-mono"><code>FROM php:8.2-apache
+COPY . /var/www/html/
+EXPOSE 80</code></pre>
+                        </div>
+
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-mono font-bold text-blue-400">Test Command ក្នុង Jenkinsfile (PHP Syntax Lint)</span>
+                            </div>
+                            <pre class="text-xs text-slate-300 font-mono"><code>stage('Test PHP Syntax') {
+    steps {
+        sh "docker run --rm --entrypoint php ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest -l /var/www/html/index.php"
+    }
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- SUB-TAB: PYTHON -->
+                    <div id="stack-python" class="sub-tab-content hidden space-y-4">
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-mono font-bold text-amber-400">app.py (Flask API)</span>
+                                <button onclick="copyCode('code-py-app')" class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-300"><i class="fa-regular fa-copy"></i> Copy</button>
+                            </div>
+                            <pre id="code-py-app" class="text-xs text-slate-300 font-mono"><code>from flask import Flask, jsonify
+import datetime
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return jsonify({
+        "status": "success",
+        "message": "🐍 Python Flask API running on AWS EC2!",
+        "developer": "Tonn Sievphor",
+        "timestamp": str(datetime.datetime.now())
+    })
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)</code></pre>
+                        </div>
+
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-mono font-bold text-amber-400">Dockerfile (Python)</span>
+                            </div>
+                            <pre class="text-xs text-slate-300 font-mono"><code>FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+EXPOSE 5000
+CMD ["python", "app.py"]</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: DOCKER & SWARM CLUSTER -->
+            <section id="docker-swarm" class="tab-content hidden space-y-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+                    <div>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Orchestration</span>
+                        <h2 class="text-2xl font-bold text-white mt-2">🐳 Docker Swarm Multi-Node Cluster (20 ពិន្ទុ)</h2>
+                        <p class="text-sm text-slate-400">ការបង្កើត Cluster 1 Manager + 2 Workers, Replicas, Rolling Update & Stack Deploy</p>
+                    </div>
+
+                    <div class="bg-slate-950 rounded-2xl border border-slate-800 p-5 space-y-3">
+                        <h3 class="text-sm font-bold text-cyan-400">១. Command បង្កើត Swarm Cluster</h3>
+                        <pre class="bg-slate-900 p-4 rounded-xl text-xs text-slate-300 font-mono overflow-x-auto border border-slate-800"><code># 1. លើ Manager Node (ផ្តួចផ្តើម Swarm)
+docker swarm init --advertise-addr &lt;MANAGER_IP&gt;
+
+# 2. យក Join-Token ទៅ Run លើ Worker Node ទី ១ និង ទី ២
+docker swarm join --token &lt;WORKER_TOKEN&gt; &lt;MANAGER_IP&gt;:2377
+
+# 3. ពិនិត្យមើល Nodes ទាំងអស់លើ Manager (ត្រូវឃើញ Ready ទាំង 3)
+docker node ls</code></pre>
+                    </div>
+
+                    <div class="bg-slate-950 rounded-2xl border border-slate-800 p-5 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-cyan-400">២. File <code class="text-amber-300 font-mono">docker-stack.yml</code> (Production Stack)</h3>
+                            <button onclick="copyCode('code-stack-yml')" class="text-xs bg-slate-800 px-2.5 py-1 rounded text-slate-300"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
+                        <pre id="code-stack-yml" class="bg-slate-900 p-4 rounded-xl text-xs text-slate-300 font-mono overflow-x-auto border border-slate-800"><code>version: '3.8'
+
+services:
+  web:
+    image: phor2026/jenkins-demo-app:latest
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+      update_config:
+        parallelism: 1
+        delay: 5s
+        order: start-first
+    networks:
+      - app-net
+
+  loadbalancer:
+    image: nginx:alpine
+    ports:
+      - "9099:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: overlay</code></pre>
+                        <p class="text-xs text-slate-400">🚀 Deploy Stack ដោយបញ្ជា៖ <code class="text-emerald-400 font-mono">docker stack deploy -c docker-stack.yml myapp</code></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: LOAD BALANCER (NGINX, HAPROXY, TRAEFIK) -->
+            <section id="load-balancer" class="tab-content hidden space-y-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+                    <div>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30">Traffic Management</span>
+                        <h2 class="text-2xl font-bold text-white mt-2">⚖️ Load Balancing Architecture (Layer 4 vs Layer 7)</h2>
+                        <p class="text-sm text-slate-400">ការប្រៀបធៀប និង Configuration នៃ Nginx, HAProxy និង Traefik</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-2">
+                            <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-500/20 text-blue-400">Layer 4 — Transport</span>
+                            <h3 class="font-bold text-sm text-white">TCP / UDP (Fast Routing)</h3>
+                            <ul class="text-xs text-slate-400 space-y-1 list-disc list-inside">
+                                <li>មើលឃើញត្រឹម IP Address និង Port</li>
+                                <li>ល្បឿនលឿនបំផុត ស៊ី CPU តិចតួច</li>
+                                <li>មិនអាច Route តាម URL Path ឬ Hostname បានទេ</li>
+                                <li>ឧទាហរណ៍: <strong>HAProxy (tcp mode), AWS NLB</strong></li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-2">
+                            <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Layer 7 — Application</span>
+                            <h3 class="font-bold text-sm text-white">HTTP / HTTPS (Smart Routing)</h3>
+                            <ul class="text-xs text-slate-400 space-y-1 list-disc list-inside">
+                                <li>មើលឃើញ Headers, Cookies, URL Paths, Hostname</li>
+                                <li>អាចធ្វើ TLS/SSL Termination និង Health Check បាន</li>
+                                <li>Route ទៅ Microservices ផ្សេងៗគ្នាតាម Path</li>
+                                <li>ឧទាហរណ៍: <strong>Nginx, Traefik, HAProxy (http), AWS ALB</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950 rounded-2xl border border-slate-800 p-5 space-y-3">
+                        <h3 class="text-sm font-bold text-amber-400">Nginx Reverse Proxy Config (<code class="text-slate-300 font-mono">nginx.conf</code>)</h3>
+                        <pre class="bg-slate-900 p-4 rounded-xl text-xs text-slate-300 font-mono overflow-x-auto border border-slate-800"><code>events {}
+http {
+    upstream backend_servers {
+        least_conn; # Algorithm: round-robin, least_conn, ip_hash
+        server web:80;
+    }
+
+    server {
+        listen 80;
+        location / {
+            proxy_pass http://backend_servers;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: TERRAFORM & AWS EC2 -->
+            <section id="terraform-ec2" class="tab-content hidden space-y-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+                    <div>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-purple-500/20 text-purple-300 border border-purple-500/30">Infrastructure as Code</span>
+                        <h2 class="text-2xl font-bold text-white mt-2">🏗️ Terraform AWS EC2 & Security Group (30 ពិន្ទុ)</h2>
+                        <p class="text-sm text-slate-400">ការបង្កើត Infrastructure ស្វ័យប្រវត្តិតាមកូដ .tf ដោយមិនបាច់ចុចដៃលើ AWS Console</p>
+                    </div>
+
+                    <div class="bg-slate-950 rounded-2xl border border-slate-800 p-5 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-purple-400"><code class="text-purple-300 font-mono">main.tf</code> (VPC, EC2 & Security Group)</h3>
+                            <button onclick="copyCode('code-terraform-main')" class="text-xs bg-slate-800 px-2.5 py-1 rounded text-slate-300"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
+                        <pre id="code-terraform-main" class="bg-slate-900 p-4 rounded-xl text-xs text-slate-300 font-mono overflow-x-auto border border-slate-800 leading-relaxed"><code>terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "ap-southeast-1" # Singapore Region
+}
+
+# 1. Security Group
+resource "aws_security_group" "web_sg" {
+  name        = "jenkins-cicd-sg"
+  description = "Allow SSH, HTTP, and App ports"
+
+  ingress {
+    description = "SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "App Port"
+    from_port   = 9099
+    to_port     = 9099
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "jenkins-cicd-sg"
+  }
+}
+
+# 2. EC2 Instance
+resource "aws_instance" "web_server" {
+  ami           = "ami-0df7a207adb9748c7" # Ubuntu 22.04 LTS
+  instance_type = "t2.micro"
+  key_name      = "my-ec2-key"
+  security_groups = [aws_security_group.web_sg.name]
+
+  tags = {
+    Name        = "Jenkins-CI-CD-Server"
+    Environment = "Production"
+  }
+}
+
+output "public_ip" {
+  value = aws_instance.web_server.public_ip
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 7: TELEGRAM NOTIFICATION BONUS -->
+            <section id="telegram-bonus" class="tab-content hidden space-y-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+                    <div>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300 border border-sky-500/30">Extra Credit (+5 Pts)</span>
+                        <h2 class="text-2xl font-bold text-white mt-2">📢 Telegram Bot Notifications ក្នុង Jenkinsfile</h2>
+                        <p class="text-sm text-slate-400">ផ្ញើសារស្វ័យប្រវត្តិចូល Telegram Channel/Group រាល់ពេល Build ជោគជ័យ ឬបរាជ័យ</p>
+                    </div>
+
+                    <div class="bg-slate-950 rounded-2xl border border-slate-800 p-5 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-sky-400">ប្លុក <code class="text-sky-300 font-mono">post { ... }</code> សម្រាប់ Telegram Bot</h3>
+                            <button onclick="copyCode('code-telegram-post')" class="text-xs bg-slate-800 px-2.5 py-1 rounded text-slate-300"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
+                        <pre id="code-telegram-post" class="bg-slate-900 p-4 rounded-xl text-xs text-slate-300 font-mono overflow-x-auto border border-slate-800 leading-relaxed"><code>    post {
+        success {
+            withCredentials([string(credentialsId: 'telegram-bot-token', variable: 'TG_TOKEN'),
+                             string(credentialsId: 'telegram-chat-id', variable: 'TG_CHAT_ID')]) {
+                sh '''
+                    curl -s -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
+                    -d "chat_id=${TG_CHAT_ID}" \
+                    -d "text=✅ [SUCCESS] Job: ${JOB_NAME} | Build: #${BUILD_NUMBER}%0A🚀 Deployed to: http://3.107.9.73:9099"
+                '''
+            }
+        }
+        failure {
+            withCredentials([string(credentialsId: 'telegram-bot-token', variable: 'TG_TOKEN'),
+                             string(credentialsId: 'telegram-chat-id', variable: 'TG_CHAT_ID')]) {
+                sh '''
+                    curl -s -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
+                    -d "chat_id=${TG_CHAT_ID}" \
+                    -d "text=❌ [FAILED] Job: ${JOB_NAME} | Build: #${BUILD_NUMBER}%0A⚠️ Please check console logs!"
+                '''
+            }
+        }
+    }</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 8: TROUBLESHOOTING & COMMON ERRORS -->
+            <section id="troubleshoot" class="tab-content hidden space-y-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+                    <div>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/30">Cheat Sheet</span>
+                        <h2 class="text-2xl font-bold text-white mt-2">🛠️ កម្រងបញ្ហាទូទៅ និងដំណោះស្រាយរហ័ស (Troubleshooting)</h2>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-2">
+                            <h3 class="text-sm font-bold text-rose-400 flex items-center gap-2">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                1. fatal: not in a git directory
+                            </h3>
+                            <p class="text-xs text-slate-300"><strong>មូលហេតុ:</strong> Jenkins បើកមុខងារ "Lightweight checkout" ធ្វើឱ្យ Git មិនទាន់ Clone repository ពេញលេញ។</p>
+                            <div class="p-3 bg-slate-900 rounded-xl text-xs text-emerald-300 font-mono">
+                                ➔ ចូល Job Configure ➔ Pipeline ➔ ដោះធីក (Uncheck) "Lightweight checkout" ➔ Save
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-2">
+                            <h3 class="text-sm font-bold text-rose-400 flex items-center gap-2">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                2. Could not find credentials entry with ID 'docker-hub-credentials'
+                            </h3>
+                            <p class="text-xs text-slate-300"><strong>មូលហេតុ:</strong> មិនទាន់បានបង្កើត Credential ID នេះក្នុង Jenkins ឬវាយឈ្មោះ ID ខុស។</p>
+                            <div class="p-3 bg-slate-900 rounded-xl text-xs text-emerald-300 font-mono">
+                                ➔ ចូល Manage Jenkins ➔ Credentials ➔ Add Credentials (Kind: Username with password, ID: docker-hub-credentials)
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-2">
+                            <h3 class="text-sm font-bold text-rose-400 flex items-center gap-2">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                3. EC2 Site can't be reached (Connection Timed Out)
+                            </h3>
+                            <p class="text-xs text-slate-300"><strong>មូលហេតុ:</strong> AWS Security Group មិនទាន់បើក Inbound Rule លើ Port 9099។</p>
+                            <div class="p-3 bg-slate-900 rounded-xl text-xs text-emerald-300 font-mono">
+                                ➔ ចូល AWS Console ➔ EC2 ➔ Security Groups ➔ Edit Inbound Rules ➔ Add Port 9099 (Source: 0.0.0.0/0)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+        <p>© 2026 Tonn Sievphor (@phor2026) | Regional Polytechnic Institute Techo Sen Battambang (RPITSB)</p>
+    </footer>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // Show selected tab content
+            const targetEl = document.getElementById(tabId);
+            if (targetEl) targetEl.classList.remove('hidden');
+
+            // Update button styles
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.getAttribute('data-target') === tabId) {
+                    btn.className = "nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center justify-between bg-indigo-600/20 text-indigo-300 border border-indigo-500/30";
+                } else {
+                    btn.className = "nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center justify-between text-slate-300 hover:bg-slate-800";
+                }
+            });
+        }
+
+        function switchSubTab(subTabId) {
+            document.querySelectorAll('.sub-tab-content').forEach(el => el.classList.add('hidden'));
+            const targetEl = document.getElementById(subTabId);
+            if (targetEl) targetEl.classList.remove('hidden');
+
+            document.querySelectorAll('.sub-tab-btn').forEach(btn => {
+                if (btn.getAttribute('data-subtarget') === subTabId) {
+                    btn.className = "sub-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-emerald-600 text-white";
+                } else {
+                    btn.className = "sub-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-800 text-slate-400 hover:text-white";
+                }
+            });
+        }
+
+        function copyCode(elementId) {
+            const el = document.getElementById(elementId);
+            if (el) {
+                navigator.clipboard.writeText(el.innerText).then(() => {
+                    alert('✅ បានចម្លង (Copied to clipboard)!');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
