@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_HUB_USER = 'phor2026'
         IMAGE_NAME      = 'jenkins-demo-app'
-        EC2_IP          = '15.135.189.23'
+        EC2_IP          = '3.107.9.73'
         EC2_USER        = 'ubuntu'        // ឬ root ឬ ec2-user តាម OS របស់ EC2
         APP_PORT        = '9099'
     }
@@ -61,7 +61,7 @@ pipeline {
         success {
             echo "🟢 ========================================================="
             echo "🟢 CI/CD PIPELINE & DEPLOY TO AWS EC2 SUCCEEDED 100%!"
-            echo "🟢 Web App Running on AWS: http://15.135.189.23:9099"
+            echo "🟢 Web App Running on AWS: http://3.107.9.73:9099"
             echo "🟢 Docker Hub: https://hub.docker.com/r/phor2026/jenkins-demo-app"
             echo "🟢 ========================================================="
         }
