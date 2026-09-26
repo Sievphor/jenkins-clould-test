@@ -47,12 +47,12 @@ pipeline {
         stage('5. Deploy to AWS EC2') {
             steps {
                 echo "🚢 Connecting via SSH to AWS EC2 (${EC2_IP}) and Deploying PHP Container..."
-                sshagent(['ec2-server-key']) {
+                sshagent(['key-server-perm']) {
                     sh """
                         ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} "
-                            docker pull ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest && \\
-                            docker stop ${IMAGE_NAME} || true && \\
-                            docker rm ${IMAGE_NAME} || true && \\
+                            docker pull ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest &&
+                            docker stop ${IMAGE_NAME} &&
+                            docker rm ${IMAGE_NAME} &&
                             docker run -d --name ${IMAGE_NAME} -p ${APP_PORT}:80 ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
                         "
                     """
