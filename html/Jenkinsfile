@@ -52,10 +52,12 @@ pipeline {
                 sshagent(['ec2-server-key']) {
                     sh """
                         ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} "
-                            docker stop ${IMAGE_NAME} || true && \\
-                            docker rm ${IMAGE_NAME} || true && \\
-                            docker system prune -af || true && \\
-                            docker pull ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest && \\
+                            sudo apt-get clean || true
+                            sudo journalctl --vacuum-size=50M || true
+                            docker ps -q --filter publish=${APP_PORT} | xargs -r docker rm -f || true
+                            docker rm -f ${IMAGE_NAME} jenkins-demo-app || true
+                            docker system prune -af || true
+                            docker pull ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
                             docker run -d --name ${IMAGE_NAME} --restart always -p ${APP_PORT}:80 ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
                         "
                     """
