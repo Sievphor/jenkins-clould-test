@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_HUB_USER = 'phor2026'
         IMAGE_NAME      = 'jenkins-demo-app'
-        EC2_IP          = '3.107.9.73'
+        EC2_IP          = '52.63.116.240'
         EC2_USER        = 'ubuntu'
         APP_PORT        = '9099'
     }

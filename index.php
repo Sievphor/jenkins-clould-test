@@ -85,7 +85,7 @@
                 </div>
                 <div class="flex justify-between py-1.5 border-b border-slate-800">
                     <span class="text-slate-400">Server Host IP:</span>
-                    <span class="font-mono text-amber-400">3.107.9.73</span>
+                    <span class="font-mono text-amber-400">52.63.116.240</span>
                 </div>
                 <div class="flex justify-between py-1.5 border-b border-slate-800 sm:col-span-2">
                     <span class="text-slate-400">Visitor IP:</span>
