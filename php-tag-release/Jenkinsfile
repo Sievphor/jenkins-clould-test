@@ -31,7 +31,7 @@ pipeline {
 
         stage('2. Build Tagged Docker Image') {
             steps {
-                dir('tag-release') {
+                dir('php-tag-release') {
                     echo "🔨 Building Image with Tag: ${DOCKER_HUB_USER}/${IMAGE_NAME}:${RELEASE_TAG}..."
                     sh "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${RELEASE_TAG} -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest ."
                 }
