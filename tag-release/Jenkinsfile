@@ -1,0 +1,97 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_HUB_USER = 'phor2026'
+        IMAGE_NAME      = 'usea-app-tag'
+        EC2_IP          = '52.63.116.240'
+        EC2_USER        = 'ubuntu'
+        APP_PORT        = '9097'
+        RELEASE_TAG     = 'v1.0.0'
+    }
+
+    stages {
+        stage('1. Checkout Tag') {
+            steps {
+                echo "📥 Pulling Git Tag Version from GitHub..."
+                checkout scm
+                script {
+                    // ទាញយកឈ្មោះ Git Tag ដោយស្វ័យប្រវត្តិ (ឧ. v1.0.0, v1.0.1)
+                    try {
+                        def tag = sh(script: "git describe --tags --exact-match 2>/dev/null || git describe --tags --always 2>/dev/null || echo 'v1.0.${BUILD_NUMBER}'", returnStdout: true).trim()
+                        env.RELEASE_TAG = tag
+                        echo "🏷️ Detected Release Tag: ${env.RELEASE_TAG}"
+                    } catch (Exception e) {
+                        env.RELEASE_TAG = "v1.0.${BUILD_NUMBER}"
+                        echo "⚠️ Fallback Tag: ${env.RELEASE_TAG}"
+                    }
+                }
+            }
+        }
+
+        stage('2. Build Tagged Docker Image') {
+            steps {
+                dir('tag-release') {
+                    echo "🔨 Building Image with Tag: ${DOCKER_HUB_USER}/${IMAGE_NAME}:${RELEASE_TAG}..."
+                    sh "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${RELEASE_TAG} -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest ."
+                }
+            }
+        }
+
+        stage('3. Test Application') {
+            steps {
+                echo "🧪 Testing PHP Syntax on Tagged Build..."
+                sh "docker run --rm --entrypoint php ${DOCKER_HUB_USER}/${IMAGE_NAME}:${RELEASE_TAG} -l /var/www/html/index.php"
+                echo "✅ PHP syntax is valid for release ${RELEASE_TAG}!"
+            }
+        }
+
+        stage('4. Push Tagged Image to Docker Hub') {
+            steps {
+                echo "🚀 Pushing ${DOCKER_HUB_USER}/${IMAGE_NAME}:${RELEASE_TAG} to Docker Hub..."
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
+                    sh 'echo "$DH_PASS" | docker login -u "$DH_USER" --password-stdin'
+                    sh "docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:${RELEASE_TAG}"
+                    sh "docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest"
+                }
+                echo "🎉 Docker Image pushed successfully with Tag: ${RELEASE_TAG}!"
+            }
+        }
+
+        stage('5. Deploy Tagged Version to AWS EC2') {
+            steps {
+                echo "🚢 Deploying Tag ${RELEASE_TAG} to AWS EC2 (${EC2_IP}) on Port ${APP_PORT}..."
+                sshagent(['ec2-server-key']) {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} "
+                            sudo apt-get clean || true
+                            sudo journalctl --vacuum-size=50M || true
+                            docker ps -q --filter publish=${APP_PORT} | xargs -r docker rm -f || true
+                            docker rm -f ${IMAGE_NAME} || true
+                            docker system prune -af || true
+                            docker pull ${DOCKER_HUB_USER}/${IMAGE_NAME}:${RELEASE_TAG}
+                            docker run -d --name ${IMAGE_NAME} --restart always -e APP_VERSION=${RELEASE_TAG} -p ${APP_PORT}:80 ${DOCKER_HUB_USER}/${IMAGE_NAME}:${RELEASE_TAG}
+                        "
+                    """
+                }
+                echo "🎉 Deployed ${RELEASE_TAG} to AWS EC2 successfully! Check at http://${EC2_IP}:${APP_PORT}"
+            }
+        }
+    }
+
+    post {
+        always {
+            sh "docker logout || true"
+        }
+        success {
+            echo "🟢 ========================================================="
+            echo "🟢 TAG RELEASE (${env.RELEASE_TAG}) CI/CD SUCCEEDED 100%!"
+            echo "🟢 Live on AWS EC2: http://${EC2_IP}:${APP_PORT}"
+            echo "🟢 Docker Hub: https://hub.docker.com/r/${DOCKER_HUB_USER}/${IMAGE_NAME}"
+            echo "🟢 ========================================================="
+        }
+        failure {
+            echo "🔴 Tag Release Pipeline failed. Please check logs."
+        }
+    }
+}
