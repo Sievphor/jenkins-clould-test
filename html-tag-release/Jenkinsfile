@@ -7,7 +7,7 @@ pipeline {
         EC2_IP          = '52.63.116.240'
         EC2_USER        = 'ubuntu'
         APP_PORT        = '9096'
-        RELEASE_TAG     = 'v1.0.1'
+        RELEASE_TAG     = 'v2.0.0'
     }
 
     stages {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Static Web - AWS EC2</title>
+    <title>HTML Static Web v2.0.0 - AWS EC2</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -16,81 +16,102 @@
         }
     </style>
 </head>
-<body class="bg-slate-900 text-white min-h-screen flex items-center justify-center p-6">
-    <div class="max-w-3xl w-full bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-8 md:p-10 space-y-8">
+<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950 text-white min-h-screen flex items-center justify-center p-6">
+    <div class="max-w-3xl w-full bg-slate-900/90 backdrop-blur-md border border-cyan-500/30 rounded-3xl shadow-2xl p-8 md:p-10 space-y-8">
         
         <!-- Header -->
         <div class="text-center space-y-3">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm font-medium">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-                <span>HTML Version (Nginx) - Port 9098</span>
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/40 text-cyan-300 text-sm font-semibold shadow-inner">
+                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span>HTML Version: v2.0.0 (Nginx Port 9098)</span>
             </div>
-            <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 via-emerald-300 to-teal-400 bg-clip-text text-transparent">
-                🌐 HTML Web Application on AWS EC2
+            <h1 class="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent">
+                🌐 HTML Static Web Application v2.0
             </h1>
-            <p class="text-slate-400 text-base">
-                គម្រោង HTML Static Web ដំណើរការ CI/CD ស្វ័យប្រវត្តិជាមួយ Jenkins & Nginx
+            <p class="text-slate-300 text-base">
+                🚀 ការអាប់ដេតកំណែថ្មី <strong>v2.0.0</strong> ដំណើរការស្វ័យប្រវត្តិតាមរយៈ <span class="text-cyan-300 font-semibold">Jenkins Webhook CI/CD</span> & Nginx
             </p>
+        </div>
+
+        <!-- Release Highlights -->
+        <div class="bg-cyan-950/40 border border-cyan-800/50 rounded-2xl p-4 flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 text-2xl flex-shrink-0">
+                <i class="fa-solid fa-sparkles"></i>
+            </div>
+            <div>
+                <h3 class="font-bold text-cyan-300 text-sm md:text-base">✨ Version 2.0.0 What's New:</h3>
+                <p class="text-xs md:text-sm text-slate-300">
+                    Updated UI layout, optimized Alpine Nginx image, automated Webhook triggering, and live health metrics.
+                </p>
+            </div>
         </div>
 
         <!-- Pipeline Workflow Cards -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-            <div class="bg-slate-700/40 border border-slate-600/60 rounded-xl p-4 space-y-1">
-                <i class="fa-brands fa-html5 text-2xl text-orange-400"></i>
-                <div class="font-semibold text-xs">HTML / Nginx</div>
-                <div class="text-[11px] text-slate-400">Static Web</div>
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 space-y-1 hover:border-cyan-500/50 transition">
+                <i class="fa-brands fa-html5 text-3xl text-orange-400"></i>
+                <div class="font-semibold text-xs text-slate-200">HTML5 / Nginx</div>
+                <div class="text-[11px] text-cyan-400 font-mono">v2.0.0</div>
             </div>
-            <div class="bg-slate-700/40 border border-slate-600/60 rounded-xl p-4 space-y-1">
-                <i class="fa-brands fa-jenkins text-2xl text-red-400"></i>
-                <div class="font-semibold text-xs">Jenkins</div>
-                <div class="text-[11px] text-slate-400">Pipeline (HTML)</div>
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 space-y-1 hover:border-cyan-500/50 transition">
+                <i class="fa-brands fa-jenkins text-3xl text-red-400"></i>
+                <div class="font-semibold text-xs text-slate-200">Jenkins CI/CD</div>
+                <div class="text-[11px] text-slate-400">html-pipeline</div>
             </div>
-            <div class="bg-slate-700/40 border border-slate-600/60 rounded-xl p-4 space-y-1">
-                <i class="fa-brands fa-docker text-2xl text-blue-400"></i>
-                <div class="font-semibold text-xs">Docker Hub</div>
-                <div class="text-[11px] text-slate-400">usea-app-html</div>
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 space-y-1 hover:border-cyan-500/50 transition">
+                <i class="fa-brands fa-docker text-3xl text-blue-400"></i>
+                <div class="font-semibold text-xs text-slate-200">Docker Hub</div>
+                <div class="text-[11px] text-slate-400">usea-app-html:latest</div>
             </div>
-            <div class="bg-slate-700/40 border border-slate-600/60 rounded-xl p-4 space-y-1">
-                <i class="fa-brands fa-aws text-2xl text-amber-400"></i>
-                <div class="font-semibold text-xs">AWS EC2</div>
-                <div class="text-[11px] text-slate-400">Port 9098</div>
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 space-y-1 hover:border-cyan-500/50 transition">
+                <i class="fa-brands fa-aws text-3xl text-amber-400"></i>
+                <div class="font-semibold text-xs text-slate-200">AWS EC2</div>
+                <div class="text-[11px] text-emerald-400 font-mono">Port 9098</div>
             </div>
         </div>
 
         <!-- Details Info Box -->
-        <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-6 space-y-4">
-            <h2 class="text-base font-semibold text-emerald-400 flex items-center gap-2">
+        <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-6 space-y-4">
+            <h2 class="text-base font-semibold text-cyan-400 flex items-center gap-2">
                 <i class="fa-solid fa-server"></i>
-                ព័ត៌មានប្រព័ន្ធ (HTML Version)
+                ព័ត៌មានប្រព័ន្ធ (System Details v2.0.0)
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                <div class="flex justify-between py-1.5 border-b border-slate-800">
+                <div class="flex justify-between py-2 border-b border-slate-800">
                     <span class="text-slate-400">Developer:</span>
-                    <span class="font-semibold text-slate-200">Tonn Sievphor</span>
+                    <span class="font-semibold text-slate-100">Tonn Sievphor</span>
                 </div>
-                <div class="flex justify-between py-1.5 border-b border-slate-800">
-                    <span class="text-slate-400">Web Server:</span>
-                    <span class="font-mono text-emerald-400">Nginx (Alpine)</span>
+                <div class="flex justify-between py-2 border-b border-slate-800">
+                    <span class="text-slate-400">Current Version:</span>
+                    <span class="font-mono text-cyan-400 font-bold">v2.0.0</span>
                 </div>
-                <div class="flex justify-between py-1.5 border-b border-slate-800">
+                <div class="flex justify-between py-2 border-b border-slate-800">
+                    <span class="text-slate-400">Web Engine:</span>
+                    <span class="font-mono text-emerald-400">Nginx Alpine</span>
+                </div>
+                <div class="flex justify-between py-2 border-b border-slate-800">
                     <span class="text-slate-400">Server Host IP:</span>
                     <span class="font-mono text-amber-400">52.63.116.240</span>
                 </div>
-                <div class="flex justify-between py-1.5 border-b border-slate-800">
-                    <span class="text-slate-400">App Port:</span>
-                    <span class="font-mono text-blue-400">9098</span>
+                <div class="flex justify-between py-2 border-b border-slate-800">
+                    <span class="text-slate-400">Application Port:</span>
+                    <span class="font-mono text-blue-400 font-bold">9098</span>
                 </div>
-                <div class="flex justify-between py-1.5 border-b border-slate-800 sm:col-span-2">
+                <div class="flex justify-between py-2 border-b border-slate-800">
+                    <span class="text-slate-400">Pipeline Type:</span>
+                    <span class="font-mono text-purple-400">Webhook / Push</span>
+                </div>
+                <div class="flex justify-between py-2 border-b border-slate-800 sm:col-span-2">
                     <span class="text-slate-400">Docker Hub Repo:</span>
-                    <span class="font-mono text-indigo-300">phor2026/usea-app-html</span>
+                    <span class="font-mono text-indigo-300">phor2026/usea-app-html:latest</span>
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
         <div class="text-center pt-2">
-            <p class="text-xs text-slate-500">
-                🎉 HTML Web App Version deployed successfully via Jenkins CI/CD!
+            <p class="text-xs text-slate-400">
+                🎉 HTML Web Application <strong>Version 2.0.0</strong> deployed successfully via Jenkins Pipeline!
             </p>
         </div>
 

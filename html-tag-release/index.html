@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Tag Release CI/CD - AWS EC2</title>
+    <title>HTML Tag Release v2.0.0 - AWS EC2</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -16,61 +16,78 @@
         }
     </style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex items-center justify-center p-6">
-    <div class="max-w-3xl w-full bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-8 md:p-10 space-y-8">
+<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 text-white min-h-screen flex items-center justify-center p-6">
+    <div class="max-w-3xl w-full bg-slate-900/90 backdrop-blur-md border border-emerald-500/30 rounded-3xl shadow-2xl p-8 md:p-10 space-y-8">
         
         <!-- Header -->
         <div class="text-center space-y-3">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-sm font-semibold">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/40 text-emerald-300 text-sm font-semibold shadow-inner">
                 <i class="fa-solid fa-tag text-emerald-400"></i>
-                <span>HTML Tag Version: v1.0.1 (Port 9096)</span>
+                <span>Release Tag: v2.0.0 (Port 9096)</span>
             </div>
-            <h1 class="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
-                🏷️ HTML Tag-Based Production Release
+            <h1 class="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+                🏷️ HTML Tag-Based Release v2.0
             </h1>
-            <p class="text-slate-400 text-base">
-                គម្រោង HTML Static Web ដំណើរការ CI/CD ស្វ័យប្រវត្តិតាមរយៈ <span class="text-emerald-300 font-mono">Git Tag (v1.0.1)</span> & Nginx
+            <p class="text-slate-300 text-base">
+                🚀 ការអាប់ដេតកំណែថ្មី <strong>v2.0.0</strong> ដំណើរការ Production Release ដោយស្វ័យប្រវត្តិតាមរយៈ <span class="text-emerald-300 font-mono font-bold">Git Tag (v2.0.0)</span>
             </p>
+        </div>
+
+        <!-- Release Highlights -->
+        <div class="bg-emerald-950/40 border border-emerald-800/50 rounded-2xl p-4 flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl flex-shrink-0">
+                <i class="fa-solid fa-rocket"></i>
+            </div>
+            <div>
+                <h3 class="font-bold text-emerald-300 text-sm md:text-base">✨ Version 2.0.0 Production Notes:</h3>
+                <p class="text-xs md:text-sm text-slate-300">
+                    Production Tag Release triggered strictly by Git Tag patterns (<code class="text-emerald-400">*/tags/*</code> or <code class="text-emerald-400">v*</code>), packaged with immutable Docker Image tags.
+                </p>
+            </div>
         </div>
 
         <!-- Workflow Badges -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-            <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 space-y-1">
-                <i class="fa-solid fa-code-commit text-2xl text-emerald-400"></i>
-                <div class="font-semibold text-xs">1. Git Tag</div>
-                <div class="text-[11px] text-slate-400">*/tags/*</div>
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 space-y-1 hover:border-emerald-500/50 transition">
+                <i class="fa-solid fa-code-commit text-3xl text-emerald-400"></i>
+                <div class="font-semibold text-xs text-slate-200">1. Git Tag</div>
+                <div class="text-[11px] text-emerald-300 font-mono">v2.0.0</div>
             </div>
-            <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 space-y-1">
-                <i class="fa-brands fa-jenkins text-2xl text-red-400"></i>
-                <div class="font-semibold text-xs">2. Jenkins</div>
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 space-y-1 hover:border-emerald-500/50 transition">
+                <i class="fa-brands fa-jenkins text-3xl text-red-400"></i>
+                <div class="font-semibold text-xs text-slate-200">2. Jenkins</div>
                 <div class="text-[11px] text-slate-400">tag-html-pipeline</div>
             </div>
-            <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 space-y-1">
-                <i class="fa-brands fa-docker text-2xl text-blue-400"></i>
-                <div class="font-semibold text-xs">3. Docker Hub</div>
-                <div class="text-[11px] text-slate-400">usea-app-html-tag</div>
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 space-y-1 hover:border-emerald-500/50 transition">
+                <i class="fa-brands fa-docker text-3xl text-blue-400"></i>
+                <div class="font-semibold text-xs text-slate-200">3. Docker Hub</div>
+                <div class="text-[11px] text-slate-400">Image:v2.0.0</div>
             </div>
-            <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 space-y-1">
-                <i class="fa-brands fa-aws text-2xl text-amber-400"></i>
-                <div class="font-semibold text-xs">4. AWS EC2</div>
-                <div class="text-[11px] text-slate-400">Live Port 9096</div>
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 space-y-1 hover:border-emerald-500/50 transition">
+                <i class="fa-brands fa-aws text-3xl text-amber-400"></i>
+                <div class="font-semibold text-xs text-slate-200">4. AWS EC2</div>
+                <div class="text-[11px] text-emerald-400 font-mono">Port 9096</div>
             </div>
         </div>
 
         <!-- System Details Info Box -->
-        <div class="bg-slate-950/80 border border-slate-800/80 rounded-2xl p-6 space-y-4">
+        <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-6 space-y-4">
             <h2 class="text-base font-semibold text-emerald-400 flex items-center gap-2">
                 <i class="fa-solid fa-circle-check"></i>
-                ព័ត៌មានលម្អិតនៃ HTML Tag Release
+                ព័ត៌មានលម្អិតនៃ HTML Tag Release (v2.0.0)
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                 <div class="flex justify-between py-2 border-b border-slate-800">
                     <span class="text-slate-400">Developer:</span>
-                    <span class="font-semibold text-slate-200">Tonn Sievphor</span>
+                    <span class="font-semibold text-slate-100">Tonn Sievphor</span>
+                </div>
+                <div class="flex justify-between py-2 border-b border-slate-800">
+                    <span class="text-slate-400">Active Git Tag:</span>
+                    <span class="font-mono text-emerald-400 font-bold">v2.0.0</span>
                 </div>
                 <div class="flex justify-between py-2 border-b border-slate-800">
                     <span class="text-slate-400">Web Engine:</span>
-                    <span class="font-mono text-teal-400 font-bold">Nginx (Alpine)</span>
+                    <span class="font-mono text-teal-400">Nginx (Alpine)</span>
                 </div>
                 <div class="flex justify-between py-2 border-b border-slate-800">
                     <span class="text-slate-400">Server Host IP:</span>
@@ -80,17 +97,21 @@
                     <span class="text-slate-400">Production Port:</span>
                     <span class="font-mono text-emerald-400 font-bold">9096</span>
                 </div>
+                <div class="flex justify-between py-2 border-b border-slate-800">
+                    <span class="text-slate-400">Trigger Mechanism:</span>
+                    <span class="font-mono text-purple-400">Git Tag Push</span>
+                </div>
                 <div class="flex justify-between py-2 border-b border-slate-800 sm:col-span-2">
                     <span class="text-slate-400">Docker Hub Repo:</span>
-                    <span class="font-mono text-indigo-300">phor2026/usea-app-html-tag:v1.0.1</span>
+                    <span class="font-mono text-indigo-300">phor2026/usea-app-html-tag:v2.0.0</span>
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
         <div class="text-center pt-2">
-            <p class="text-xs text-slate-500">
-                🎉 Tag-based HTML CI/CD deployment running smoothly on AWS EC2!
+            <p class="text-xs text-slate-400">
+                🎉 Tag-based HTML CI/CD deployment <strong>Version 2.0.0</strong> running smoothly on AWS EC2!
             </p>
         </div>
 
