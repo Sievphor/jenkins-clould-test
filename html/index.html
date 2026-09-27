@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Static Web - AWS EC2</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts Khmer -->
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruuy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kantumruuy Pro', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen flex items-center justify-center p-6">
+    <div class="max-w-3xl w-full bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-8 md:p-10 space-y-8">
+        
+        <!-- Header -->
+        <div class="text-center space-y-3">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm font-medium">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                <span>HTML Version (Nginx) - Port 9098</span>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 via-emerald-300 to-teal-400 bg-clip-text text-transparent">
+                🌐 HTML Web Application on AWS EC2
+            </h1>
+            <p class="text-slate-400 text-base">
+                គម្រោង HTML Static Web ដំណើរការ CI/CD ស្វ័យប្រវត្តិជាមួយ Jenkins & Nginx
+            </p>
+        </div>
+
+        <!-- Pipeline Workflow Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+            <div class="bg-slate-700/40 border border-slate-600/60 rounded-xl p-4 space-y-1">
+                <i class="fa-brands fa-html5 text-2xl text-orange-400"></i>
+                <div class="font-semibold text-xs">HTML / Nginx</div>
+                <div class="text-[11px] text-slate-400">Static Web</div>
+            </div>
+            <div class="bg-slate-700/40 border border-slate-600/60 rounded-xl p-4 space-y-1">
+                <i class="fa-brands fa-jenkins text-2xl text-red-400"></i>
+                <div class="font-semibold text-xs">Jenkins</div>
+                <div class="text-[11px] text-slate-400">Pipeline (HTML)</div>
+            </div>
+            <div class="bg-slate-700/40 border border-slate-600/60 rounded-xl p-4 space-y-1">
+                <i class="fa-brands fa-docker text-2xl text-blue-400"></i>
+                <div class="font-semibold text-xs">Docker Hub</div>
+                <div class="text-[11px] text-slate-400">usea-app-html</div>
+            </div>
+            <div class="bg-slate-700/40 border border-slate-600/60 rounded-xl p-4 space-y-1">
+                <i class="fa-brands fa-aws text-2xl text-amber-400"></i>
+                <div class="font-semibold text-xs">AWS EC2</div>
+                <div class="text-[11px] text-slate-400">Port 9098</div>
+            </div>
+        </div>
+
+        <!-- Details Info Box -->
+        <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-6 space-y-4">
+            <h2 class="text-base font-semibold text-emerald-400 flex items-center gap-2">
+                <i class="fa-solid fa-server"></i>
+                ព័ត៌មានប្រព័ន្ធ (HTML Version)
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                <div class="flex justify-between py-1.5 border-b border-slate-800">
+                    <span class="text-slate-400">Developer:</span>
+                    <span class="font-semibold text-slate-200">Tonn Sievphor</span>
+                </div>
+                <div class="flex justify-between py-1.5 border-b border-slate-800">
+                    <span class="text-slate-400">Web Server:</span>
+                    <span class="font-mono text-emerald-400">Nginx (Alpine)</span>
+                </div>
+                <div class="flex justify-between py-1.5 border-b border-slate-800">
+                    <span class="text-slate-400">Server Host IP:</span>
+                    <span class="font-mono text-amber-400">52.63.116.240</span>
+                </div>
+                <div class="flex justify-between py-1.5 border-b border-slate-800">
+                    <span class="text-slate-400">App Port:</span>
+                    <span class="font-mono text-blue-400">9098</span>
+                </div>
+                <div class="flex justify-between py-1.5 border-b border-slate-800 sm:col-span-2">
+                    <span class="text-slate-400">Docker Hub Repo:</span>
+                    <span class="font-mono text-indigo-300">phor2026/usea-app-html</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center pt-2">
+            <p class="text-xs text-slate-500">
+                🎉 HTML Web App Version deployed successfully via Jenkins CI/CD!
+            </p>
+        </div>
+
+    </div>
+</body>
+</html>
