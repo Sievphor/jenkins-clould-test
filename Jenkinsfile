@@ -47,7 +47,7 @@ pipeline {
         stage('5. Deploy to AWS EC2') {
             steps {
                 echo "🚢 Connecting via SSH to AWS EC2 (${EC2_IP}) and Deploying PHP Container..."
-                sshagent(['key-server-perm']) {
+                sshagent(['serve-key']) {
                     sh """
                         ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'REMOTE_CMDS'
                             set -e
