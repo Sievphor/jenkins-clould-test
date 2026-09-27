@@ -20,14 +20,14 @@ pipeline {
         stage('2. Build Docker Image (PHP)') {
             steps {
                 echo "🔨 Building PHP Docker Image: ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER}..."
-                sh "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER} ."
+                sh "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER} -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest ."
             }
         }
 
         stage('3. Test PHP Syntax') {
             steps {
                 echo "🧪 Testing PHP Syntax..."
-                sh "docker run --rm --entrypoint php ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest -l /var/www/html/index.php"
+                sh "docker run --rm --entrypoint php ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER} -l /var/www/html/index.php"
                 echo "✅ PHP Syntax check passed!"
             }
         }
@@ -49,12 +49,14 @@ pipeline {
                 echo "🚢 Connecting via SSH to AWS EC2 (${EC2_IP}) and Deploying PHP Container..."
                 sshagent(['key-server-perm']) {
                     sh """
-                        ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP}
-                            docker pull ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest &&
-                            docker stop ${IMAGE_NAME} &&
-                            docker rm ${IMAGE_NAME} &&
-                            docker run -d --name ${IMAGE_NAME} -p ${APP_PORT}:80 ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
-                        
+                        ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'REMOTE_CMDS'
+                            set -e
+                            docker pull ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
+                            docker stop ${IMAGE_NAME} || true
+                            docker rm ${IMAGE_NAME} || true
+                            docker run -d --name ${IMAGE_NAME} --restart always -p ${APP_PORT}:80 ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
+                            docker image prune -f
+REMOTE_CMDS
                     """
                 }
                 echo "🎉 Deployed PHP App to AWS EC2 successfully! Check at http://${EC2_IP}:${APP_PORT}"
@@ -69,8 +71,8 @@ pipeline {
         success {
             echo "🟢 ========================================================="
             echo "🟢 PHP CI/CD PIPELINE & DEPLOY TO AWS EC2 SUCCEEDED 100%!"
-            echo "🟢 PHP App Running on AWS: http://3.107.9.73:9099"
-            echo "🟢 Docker Hub: https://hub.docker.com/r/phor2026/jenkins-demo-app"
+            echo "🟢 PHP App Running on AWS: http://${EC2_IP}:${APP_PORT}"
+            echo "🟢 Docker Hub: https://hub.docker.com/r/${DOCKER_HUB_USER}/${IMAGE_NAME}"
             echo "🟢 ========================================================="
         }
         failure {
